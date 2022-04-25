@@ -147,3 +147,12 @@ func TestTimeConsuming(t *testing.T) {
 ## 子测试
 
 在上面的示例中我们为每一个测试数据编写了一个测试函数，而通常单元测试中需要多组测试数据保证测试的效果。Go1.7+中新增了子测试，支持在测试函数中使用t.Run执行一组测试用例，这样就不需要为不同的测试数据定义多个测试函数了。
+
+```go
+func TestXXX(t *testing.T){
+  t.Run("case1", func(t *testing.T){...})
+  t.Run("case2", func(t *testing.T){...})
+  t.Run("case3", func(t *testing.T){...})
+}
+```
+
