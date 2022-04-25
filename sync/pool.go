@@ -24,5 +24,6 @@ func GetNowTimeStr() string {
 var uid = 123564898
 func main(){
 	fmt.Println(GetNowTimeStr())
-	fmt.Printf("%t",string(uid))
+	//fmt.Printf("%t",string(uid))
+	fmt.Println(18.5*0.2)
 }
