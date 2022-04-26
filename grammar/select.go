@@ -20,6 +20,10 @@ func waitCh (ch1,ch2 chan string){
 	}
 }
 
+/*
+lobby -> online 里面会检测破产礼包
+加个逻辑给他推送，因为主分支master里面已经给这个逻辑删掉了
+ */
 func main(){
 	tricker := time.NewTicker(time.Second)
 	ch1 := new(chan string)

@@ -4,6 +4,7 @@ import "fmt"
 
 /*
 参考连接：https://juejin.cn/post/6844903950504689677
+		https://juejin.cn/post/6844904165672484871
 */
 /*
 在说明闭包之前，有必要了解一下函数变量。
