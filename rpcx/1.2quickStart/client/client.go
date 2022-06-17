@@ -57,4 +57,13 @@ func main() {
 		log.Printf("%d * %d = %d", args.A, args.B, rep.C)
 	}
 
+	// 调用纯函数注册的服务
+	// 一个xclient对应一个服务，如果想要调用多个服务，需要为每个服务创建一个xclient
+	xclient2 := client.NewXClient("purefunc.service", client.Failtry, client.RandomSelect, d, client.DefaultOption)
+	defer xclient2.Close()
+	err = xclient2.Call(context.Background(), "sub", args, rep)
+	if err != nil {
+		log.Fatalf("failed to call sub: %v", err)
+	}
+	log.Printf("%d - %d = %d", args.A, args.B, rep.C)
 }

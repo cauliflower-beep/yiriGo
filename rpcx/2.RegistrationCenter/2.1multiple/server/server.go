@@ -2,8 +2,14 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"github.com/smallnest/rpcx/server"
+)
+
+var (
+	addr1 = flag.String("addr1", "localhost:8972", "server1 address")
+	addr2 = flag.String("addr2", "localhost:8973", "server2 address")
 )
 
 type Args struct {
@@ -24,27 +30,26 @@ func (arth *Arith) Mul(ctx context.Context, args *Args, rep *Rep) error {
 	return nil
 }
 
-// 除了上述的将方法注册为服务，rpcx也支持将纯函数注册为服务
-func sub(ctx context.Context, args Args, rep *Rep) error { // 函数可以是不可导出的
-	rep.C = args.A - args.B
-	return nil
-}
-func main() {
+func creatServer(addr string) {
 	s := server.NewServer() // 创建服务器实例
 	// 注册服务
 	if err := s.RegisterName("Arith", new(Arith), ""); err != nil {
 		fmt.Println("register service failed!")
 	}
 
-	// 注册纯函数为服务
-	if err := s.RegisterFunction("purefunc.service", sub, ""); err != nil {
-		fmt.Println("纯函数服务注册失败")
-	}
-
 	// 创建监听
-	err := s.Serve("tcp", ":8972")
+	err := s.Serve("tcp", addr)
 	if err != nil {
 		fmt.Println("server start failed!")
 	}
+}
+func main() {
+	flag.Parse()
+
+	// 启动两个相同的服务，在不同端口监听
+	go creatServer(*addr1)
+	go creatServer(*addr2)
+
+	select {}
 
 }
