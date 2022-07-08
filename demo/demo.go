@@ -19,7 +19,11 @@ func main() {
 	//plusOne([]int{9, 9, 9})
 
 	// 最长回文子串
-	fmt.Println(longestPalindrome("babad"))
+	//fmt.Println(longestPalindrome("babad"))
+
+	// 字符串拼接
+	fmt.Println("111 " + "222")
+
 }
 
 // str匹配
