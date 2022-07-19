@@ -1,8 +1,24 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"strconv"
+	"sync"
+)
 
 // 测试用
+var wg sync.WaitGroup
+
+type people struct {
+	age    int
+	height int
+}
+
+type animal struct {
+	gentle int
+	color  string
+}
 
 func main() {
 	//s := "abcdef"
@@ -15,6 +31,9 @@ func main() {
 	// 数字转字符串
 	//fmt.Println([]byte(strconv.Itoa(1234)))
 
+	// 字符串转数字
+	//fmt.Println(strconv.Atoi("111"))
+
 	//数组数字相转换
 	//plusOne([]int{9, 9, 9})
 
@@ -22,8 +41,118 @@ func main() {
 	//fmt.Println(longestPalindrome("babad"))
 
 	// 字符串拼接
-	fmt.Println("111 " + "222")
+	//fmt.Println("111 " + "222")
 
+	// 二进制加法
+	//fmt.Println(addBinary("11", "1"))
+
+	//groutine同步问题
+	//wg.Add(3)
+	//for i := 0; i < 3; i++ {
+	//	go goA()
+	//}
+	//fmt.Println("123")
+	//wg.Wait()
+	//fmt.Println("123456")
+
+	////goroutine返回值问题
+	//wg.Add(2)
+	//pc := make(chan []people)
+	//ac := make(chan []animal)
+	//go func() {
+	//	arr := []people{
+	//		people{1, 12},
+	//		people{2, 12},
+	//		people{5, 12},
+	//		people{4, 12},
+	//		people{7, 12},
+	//	}
+	//	pc <- arr
+	//
+	//	arr2 := []animal{
+	//		animal{1, "red"},
+	//		animal{2, "green"},
+	//		animal{2, "black"},
+	//		animal{1, "white"},
+	//		animal{2, "blue"},
+	//	}
+	//	ac <- arr2
+	//	//for i := 0; i < 5; i++ {
+	//	//	pc <- arr
+	//	//}
+	//	wg.Done()
+	//}()
+	//go func() {
+	//	arr := []people{
+	//		people{10, 12},
+	//		people{11, 12},
+	//		people{17, 12},
+	//		people{14, 12},
+	//		people{13, 12},
+	//	}
+	//	pc <- arr
+	//	arr2 := []animal{
+	//		animal{3, "red"},
+	//		animal{4, "green"},
+	//		animal{3, "black"},
+	//		animal{4, "white"},
+	//		animal{3, "blue"},
+	//	}
+	//	ac <- arr2
+	//	wg.Done()
+	//}()
+	//
+	//pcT := []people{}
+	////acT := []animal{}
+	////for i := 0; i < 4; i++ {
+	////	select {
+	////	case p := <-pc:
+	////		fmt.Println("received", p)
+	////		pcT = append(pcT, p...)
+	////	case a := <-ac:
+	////		fmt.Println("received", a)
+	////		acT = append(acT, a...)
+	////	}
+	////}
+	////
+	////close(pc)
+	////close(ac)
+	//
+	//wg.Wait()
+	//close(pc)
+	//close(ac)
+	////for-range遍历
+	//
+	//for p := range pc {
+	//	fmt.Println(p)
+	//	pcT = append(pcT, p...)
+	//}
+	//
+	//for a := range ac {
+	//	fmt.Println(a)
+	//}
+	//
+	//fmt.Println(pcT)
+	//sort.Sort(newsDetail(pcT))
+	//fmt.Println(pcT)
+
+	s := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	fmt.Println(s[1:2])
+	fmt.Println(s[:10])
+}
+
+type newsDetail []people
+
+func (n newsDetail) Len() int { return len(n) }
+
+func (n newsDetail) Swap(i, j int) { n[i], n[j] = n[j], n[i] }
+
+func (n newsDetail) Less(i, j int) bool { return n[i].age < n[j].age }
+
+//
+func goA() {
+	fmt.Println(111)
+	wg.Done()
 }
 
 // str匹配
@@ -172,3 +301,36 @@ func isPalindrome(s string) bool {
 		return false
 	}
 }
+
+/*******************************二进制加法****************************/
+func addBinary(a string, b string) string {
+	// 转换成10进制
+	numA, numB := bin2dec(a), bin2dec(b)
+
+	log.Println(numA, numB)
+
+	// 计算10进制和
+	sum := numA + numB
+	log.Println(sum)
+
+	// 转换成二进制(顺序取余)
+	return dec2bin(sum)
+}
+
+// 2进制转10进制
+func bin2dec(s string) (num int) {
+	num64, _ := strconv.ParseInt(s, 2, 64)
+	return int(num64)
+}
+
+// 10进制转换为2进制
+func dec2bin(n int) (bin string) {
+	//for ; n > 0; n /= 2 {
+	//	lsb := n % 2
+	//	bin = strconv.Itoa(lsb) + bin
+	//}
+	bin = strconv.FormatInt(int64(n), 2)
+	return
+}
+
+/********************************end*************************************/
