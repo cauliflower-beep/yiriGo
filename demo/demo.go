@@ -136,9 +136,12 @@ func main() {
 	//sort.Sort(newsDetail(pcT))
 	//fmt.Println(pcT)
 
-	s := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	fmt.Println(s[1:2])
-	fmt.Println(s[:10])
+	//s := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	//fmt.Println(s[1:2])
+	//fmt.Println(s[:10])
+
+	//快慢指针去重
+	fmt.Println(RemoveDuplicates([]string{"a", "b", "b", "b", "b", "c", "C", "c", "c"}))
 }
 
 type newsDetail []people
@@ -334,3 +337,32 @@ func dec2bin(n int) (bin string) {
 }
 
 /********************************end*************************************/
+
+/*******************************数组去重**********************************/
+func RemoveDuplicates(str []string) (strWithoutDup []string) {
+	// 快慢指针法，有bug，重复元素必须相邻才有效果
+	//if len(str) == 0 {
+	//	return str
+	//}
+	//left, right := 0, 1
+	//for ; right < len(str); right++ {
+	//	if str[left] == str[right] {
+	//		continue
+	//	}
+	//	left++
+	//	str[left] = str[right]
+	//}
+	//return str[:left+1]
+
+	// 利用map去重，空间换时间，避免双重循环
+	strMap := make(map[string]string)
+	for _, v := range str {
+		strMap[v] = v
+	}
+	for _, v := range strMap {
+		strWithoutDup = append(strWithoutDup, v)
+	}
+	return
+}
+
+/***************************************************************************/
