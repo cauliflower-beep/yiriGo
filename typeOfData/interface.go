@@ -42,7 +42,7 @@ type hunter struct{}
 /*
 接口本身也是一种数据类型，可以作为函数参数
 */
-// hunt 需要一个animal类型的参数，凡是实现了该接口的对象，都可以作为参数传递过来
+// hunt 需要一个animal类型的参数，凡是实现了该接口的对象(变量)，都可以作为参数传递过来
 func (h hunter) hunt(a animal) {
 	a.scream()
 	a.move()

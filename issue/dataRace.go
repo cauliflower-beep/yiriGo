@@ -31,9 +31,9 @@ func getNumber() int {
 Go(从V1.1开始)具有内置的数据竞争检测器，可以使用它来查明潜在的数据竞争条件。使用它就像在普通的Go命令
 行中添加标志一样简单：
 
-运行时检查竞态的命令: go run -race main.go
-构建时检查竞态的命令： go build -race main.go
-测试时检查竞态的命令： go test -race main.go
+运行时检查竞态的命令: go run -race producer.go
+构建时检查竞态的命令： go build -race producer.go
+测试时检查竞态的命令： go test -race producer.go
 
 所有避免产生竞态背后的核心原则都是防止对同一变量或内存位置同时进行读写和访问。
 */

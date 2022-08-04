@@ -1,4 +1,4 @@
-package main
+package _struct
 
 /*
 空结构体的用途：
