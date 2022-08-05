@@ -40,3 +40,20 @@ func main() {
 	sort.Sort(persons(arr))
 	fmt.Println(arr)
 }
+
+// 一组接口，实现多种结构体排序
+type obj interface{}
+
+type objs []obj
+
+func (ob objs) Len() int { return len(ob) }
+
+func (ob objs) Swap(i, j int) { ob[i], ob[j] = ob[j], ob[i] }
+
+func (ob objs) Less(i, j int) bool {
+	//if ob.(persons) == persons{
+	//
+	//}
+	//return ob.(persons)[i].age > ob.(persons)[j].age
+	return false
+}
