@@ -25,4 +25,12 @@ func main() {
 	p2, _ := strconv.ParseInt(b2, 8, 64) // 8进制转10进制
 	fmt.Printf("%v\n", p2)               //229
 
+	// 字符串<--->int
+	i1, _ := strconv.Atoi("321")
+	fmt.Println(i1 + 2)
+	i2, err := strconv.Atoi("abc")
+	if err != nil {
+		fmt.Println(i2, "converted failed!")
+	}
+
 }

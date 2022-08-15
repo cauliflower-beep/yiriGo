@@ -141,7 +141,12 @@ func main() {
 	//fmt.Println(s[:10])
 
 	//快慢指针去重
-	fmt.Println(RemoveDuplicates([]string{"a", "b", "b", "b", "b", "c", "C", "c", "c"}))
+	//fmt.Println(RemoveDuplicates([]string{"a", "b", "b", "b", "b", "c", "C", "c", "c"}))
+
+	// bbs-go解疑
+	p1 := p
+	p2 := p
+	fmt.Println(p1, p2, p1 == p2)
 }
 
 type newsDetail []people
