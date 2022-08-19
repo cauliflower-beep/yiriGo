@@ -144,9 +144,13 @@ func main() {
 	//fmt.Println(RemoveDuplicates([]string{"a", "b", "b", "b", "b", "c", "C", "c", "c"}))
 
 	// bbs-go解疑
-	p1 := p
-	p2 := p
-	fmt.Println(p1, p2, p1 == p2)
+	//p1 := p
+	//p2 := p
+	//fmt.Println(p1, p2, p1 == p2)
+
+	// 测试题
+	//fmt.Println(09)	// 0开头表示8进制，数字不能超过7，会编译错误。
+
 }
 
 type newsDetail []people

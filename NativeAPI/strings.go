@@ -11,6 +11,7 @@ func main() {
 	str := strings.Join(s, ":")
 	str1 := strings.Join(s, "\n")
 	fmt.Println(str, str1)
+	fmt.Println()
 
 	// 字符拆分
 	str2 := "hello|my|boy|lufy"
