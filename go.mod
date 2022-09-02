@@ -3,6 +3,7 @@ module yiriGo
 go 1.17
 
 require (
+	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
 	github.com/gin-gonic/gin v1.8.1
 	github.com/goburrow/cache v0.1.4
 	github.com/google/uuid v1.3.0

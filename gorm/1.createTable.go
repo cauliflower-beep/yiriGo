@@ -13,6 +13,12 @@ type User struct {
 	Brithday time.Time
 }
 
+type recharge struct {
+	ID      string
+	Name    string
+	Account int64
+}
+
 func main() {
 	dsn := "root:admin123@tcp(127.0.0.1:3306)/gormtest?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})

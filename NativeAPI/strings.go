@@ -18,4 +18,10 @@ func main() {
 	//strSplit := strings.Split(str2, "|")
 	strSplit := strings.SplitN(str2, "|", 2) // 指定分割符号，指定分割次数
 	fmt.Println(strSplit, len(strSplit))
+
+	// 字符替换
+	str3 := "BVc5sIR3GJkHjE6uFrnqOA@"
+	strRep := strings.Replace(str3, "&", "=", -1)
+	strRep = strings.Replace(strRep, "@", "==", -1)
+	fmt.Println(strRep)
 }
