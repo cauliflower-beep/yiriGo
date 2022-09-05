@@ -1,0 +1,4 @@
+db:
+  mysql:
+    host_and_post:"127.0.0.1:3306"
+    user:"root"

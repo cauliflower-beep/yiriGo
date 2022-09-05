@@ -105,11 +105,6 @@ func DesDecrypt(decrypted string, key []byte) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	//src, err = base64.RawStdEncoding.DecodeString(decrypted)
-	//if err != nil {
-	//	return "", err
-	//}
-	//src := []byte{153, 91, 175, 183, 79, 93, 220, 56, 30, 15, 68, 215, 20, 3, 103, 79}
 
 	block, err := des.NewCipher(key)
 	if err != nil {
