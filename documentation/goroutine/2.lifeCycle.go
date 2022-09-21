@@ -9,7 +9,7 @@ import (
 main函数结束的时候，所有goroutine都会跟着一起结束。这个是老生常谈。否则我们也不会在各种goroutine初始教程里，看到time.sleep
 这种让 main 等待goroutine执行完成的操作。
 
-但main函数未结束时，父goroutine以及由它发起的子goroutine的生命周期就时另外一套逻辑了：
+但main函数未结束时，父goroutine以及由它发起的子goroutine的生命周期就是另外一套逻辑了：
 	1.父函数结束，子goroutine仍会继续执行；
 	2.父goroutine结束，子goroutine仍会继续执行；
 */
