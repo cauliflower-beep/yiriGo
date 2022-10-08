@@ -9,7 +9,8 @@ go中的 struct 与数组一样，属于复合类型，并非引用类型
 与其他面向对象编程语言中的 class 类似，struct可以定义字段（属性）和方法
 */
 
-// 1.define
+/////////////////////////////////////////////////////////////////
+// 1.1define
 /*
 同类型的字段可以放在一行定义，但比较好的编程习惯是分行定义
 struct可以通过复合其他结构体来构建更复杂的结构体，但不能包含自己
@@ -19,6 +20,22 @@ type Player struct {
 	nickname, sex string
 	age           int
 	pet           Bird
+}
+
+/* 1.2 匿名字段
+上面定义的 Player结构体，字段名与类型是一一对应的。
+实际上Go也支持只提供类型，而不写字段名的方式，称之为匿名字段，也叫嵌入字段。
+*/
+
+// scene 自定义类型
+type scene string
+type Game struct {
+	// 匿名字段为struct
+	Player // Game 包含Player结构体的所有字段，可通过 Game.id 或 Game.Player.id 的方式访问
+	level  int
+	int        // 匿名字段为内置类型 Game.int
+	scene      // 匿名字段为自定义类型
+	id     int // Game 拥有与Player结构体同名的字段，Game.id会优先访问Game的字段，而不是Player里面的字段
 }
 
 /////////////////////////////////////////////////////////
@@ -95,19 +112,20 @@ func main() {
 	var p2 = Player{1, "广志", "male", 35, fly}
 
 	// 3.访问字段
-	fmt.Println(p1.nickname)
-	fmt.Println(p2.age)
+	fmt.Println("访问普通字段：", p1.nickname, p2.age)
+	//fmt.Println(p2.age)
+	// 3.1 访问匿名字段
+	round1 := Game{Player{1, "广志", "male", 35, fly}, 1, 1, "都市", 0}
+	fmt.Println("匿名字段访问：", round1.nickname, round1.Player.nickname, round1.id)
 
 	// 4.值传递
-	fmt.Println(getName(p1))
-	fmt.Println(p1) // 由于是值传递，函数内部对结构体字段的修改，并不会影响原有的数据
+	fmt.Println("值传递展示：", getName(p1), p1) // 由于是值传递，函数内部对结构体字段的修改，并不会影响原有的数据
 
 	// 5.结构体指针
-	fmt.Println(getAge(&p2))
-	fmt.Println(p2)
+	fmt.Println("指针传递结果展示：", getAge(&p2), p2) // 指针传递会影响原来的值
 
 	// 6.方法
 	p1.setName("风间彻")
-	fmt.Println(p1)
+	fmt.Println("方法调用展示：", p1)
 
 }
