@@ -19,6 +19,7 @@ Go1.5版本之前，默认使用的是单核心执行，之后默认值是机器
 */
 
 func checkLink(link string) {
+	runtime.Gosched() // 将时间片让给别人，下次某个时候继续恢复执行该goroutine
 	_, err := http.Get(link)
 	if err != nil {
 		fmt.Println(link, "might be down!")
@@ -31,7 +32,8 @@ func main() {
 	cpuNum := runtime.NumCPU()
 	fmt.Println("cpuNum : ", cpuNum)
 
-	// 设置使用多个cpu执行goroutine
+	// 告诉调度器同时使用多个线程执行goroutine，并返回之前的设置。如果n<1,不会改变当前设置
+	// 但其实对于IO密集型的场景，可以把GOMAXPROCS的值超过CPU核数，在笔者维护的某个服务中，将GOMAXPROCS设为CPU核数的2倍，压测结果表明，吞吐能力大概能提升10%
 	runtime.GOMAXPROCS(16)
 	fmt.Println("ok")
 
@@ -55,5 +57,6 @@ func main() {
 	for _, link := range links {
 		go checkLink(link)
 	}
+	fmt.Println("hello goroutine~")
 	time.Sleep(3 * time.Second) // 等待子goroutine执行完毕
 }
