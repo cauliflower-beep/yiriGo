@@ -9,6 +9,8 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/robfig/cron v1.2.0
 	github.com/smallnest/rpcx v1.7.4
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.515
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ocr v1.0.515
 	google.golang.org/grpc v1.31.0
 	google.golang.org/protobuf v1.28.0
 	gorm.io/driver/mysql v1.3.5
