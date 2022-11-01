@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+/********************************* 案例1 ********************************************************/
 /*
 背景：
 	PMsg系统接收自选股更新消息，拿到uid之后，需要去dcache中获取该uid的全部自选股列表
@@ -38,15 +39,59 @@ type T struct {
 	//Createtime int64  `json:"createtime"`
 }
 
+/***************************************** 案例2 ***********************************************/
+var riskStr = "{\"title\": \"{\\\"accountId\\\":\\\"peter\\\",\\\"modifyTime\\\":\\\"2020-11-05 19:30:03\\\",\\\"url\\\":\\\"https://lyzt.test.investoday.net/riskwarnweb/v1/home?code=002044\\\",\\\"data\\\":[{\\\"stockCode\\\":\\\"002044\\\",\\\"stockName\\\":\\\"美年健康\\\",\\\"lastRiskLevel\\\":3,\\\"thisRiskLevel\\\":3,\\\"riskTypeList\\\":[17]}],\\\"desc\\\":{\\\"risk\\\":[\\\"信息披露风险\\\",\\\"限售股批量解禁\\\",\\\"质押股跌破预警线\\\",\\\"股东大幅减持\\\",\\\"高管大幅减持\\\",\\\"业绩快报风险\\\",\\\"业绩预告风险\\\",\\\"定期报告风险\\\",\\\"偿债风险\\\",\\\"资产结构问题\\\",\\\"资金问题\\\",\\\"应收异常\\\",\\\"研发资本化异常\\\",\\\"经营问题\\\",\\\"评级下调\\\",\\\"盈利预测下调\\\",\\\"评级减持\\\",\\\"新闻舆情风险\\\"]}}\"}"
+
+type RiskWarnTitle struct {
+	AccountId  string         `json:"accountId"`
+	ModifyTime string         `json:"modifyTime"`
+	Url        string         `json:"url"`
+	Data       []RiskWarnData `json:"data"`
+	Desc       RiskWarnDesc   `json:"desc"`
+}
+type RiskWarnData struct {
+	StockCode     string `json:"stockCode"`
+	StockName     string `json:"stockName"`
+	LastRiskLevel int    `json:"lastRiskLevel"`
+	ThisRiskLevel int    `json:"thisRiskLevel"`
+	RiskTypeList  []int  `json:"riskTypeList"`
+}
+type RiskWarnDesc struct {
+	Risk []string `json:"risk"`
+}
+
+// RiskWarnInfo 风险数据
+//type RiskWarnTemp struct {
+//	Title string `json:"title"`
+//}
+
+type RiskWarnInfo struct {
+	TitleStr string `json:"title"`
+	Title    RiskWarnTitle
+}
+
 func main() {
-	t_list := []T{}
+	// 案例1
+	var tList []T
 	//cache_trim := strings.Trim(cacheData, "[")
 	//cache_trim2 := strings.Trim(cache_trim, "]")
-	if err := json.Unmarshal([]byte(cacheData), &t_list); err != nil {
+	if err := json.Unmarshal([]byte(cacheData), &tList); err != nil {
 		fmt.Println(err)
 	} else {
-		for _, rec := range t_list {
+		for _, rec := range tList {
 			fmt.Println(rec.Scode)
 		}
 	}
+
+	// 案例2
+	var riskData RiskWarnInfo
+	_ = json.Unmarshal([]byte(riskStr), &riskData)
+	fmt.Println(riskData.TitleStr)
+	if err := json.Unmarshal([]byte(riskData.TitleStr), &riskData.Title); err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(riskData.Title.AccountId)
+	}
+	// 利用反射求结构体中有多少个字段
+
 }
