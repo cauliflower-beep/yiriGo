@@ -172,7 +172,20 @@ func (w *wale) getName() string {
 /*8.空接口和类型断言的使用细节
 当一个空接口传入切片或者结构体值时，不能直接获取切片内容或者结构体字段，
 必须结合类型断言才可以。
+
+11.15号 嘿今天写代码还真遇到这个问题
+大概就是dcache中存放了一个字符串类型的切片 []string 解析之后要返回给客户端
 */
+func assertionDetail(i interface{}) {
+	// 先试试能不能直接断言成 []string
+	fmt.Println(i.([]string)) //woc 竟然可以，牛b
+	name := i.([]string)
+	fmt.Println(name[1])
+	var a2 []string
+	a2 = append(a2, name...)
+	fmt.Println(a2[2])
+}
+
 /*******************************************************************/
 func main() {
 	//sqarrow := bird{
@@ -182,7 +195,7 @@ func main() {
 	//sqarrow.scream()
 	//sqarrow.move()
 
-	h := hunter{}
+	//h := hunter{}
 	//h.hunt(bird{})
 
 	//空接口
@@ -201,28 +214,31 @@ func main() {
 	//handleType(num)
 
 	// 结构体值接收者实现接口
-	prince := cat{}
-	h.hunt(prince)
-	h.hunt(&prince)
+	//prince := cat{}
+	//h.hunt(prince)
+	//h.hunt(&prince)
 
 	// 结构体指针接收者实现接口
-	dog1 := &dog{}
-	h.hunt(dog1)
+	//dog1 := &dog{}
+	//h.hunt(dog1)
 
 	// 带有参数和返回值的接口
-	f1 := &fish{
-		name: "小卡",
-	}
-	var ab animalBase = f1 // 因为f1已经实现了接口，所以可以赋值给animalBase类型的ab
-	ab.setName("kaka")
-	fmt.Println(ab.getName())
+	//f1 := &fish{
+	//	name: "小卡",
+	//}
+	//var ab animalBase = f1 // 因为f1已经实现了接口，所以可以赋值给animalBase类型的ab
+	//ab.setName("kaka")
+	//fmt.Println(ab.getName())
 
 	// 接口嵌套
-	w1 := &wale{
-		name: "messi",
-	}
-	var am animalMgr = w1
-	am.setName("leo messi")
-	fmt.Println(am.getName())
+	//w1 := &wale{
+	//	name: "messi",
+	//}
+	//var am animalMgr = w1
+	//am.setName("leo messi")
+	//fmt.Println(am.getName())
 
+	// 8.类型断言使用细节
+	a1 := []string{"路飞", "索隆", "山治"}
+	assertionDetail(a1)
 }

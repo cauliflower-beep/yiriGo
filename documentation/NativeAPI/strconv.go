@@ -26,6 +26,7 @@ func main() {
 	fmt.Printf("%v\n", p2)               //229
 
 	// 字符串<--->int
+	// 支持从任何types转为string，或者从string转为任意types  可以结合 Sprintf 使用
 	i1, _ := strconv.Atoi("321")
 	fmt.Println(i1 + 2)
 	i2, err := strconv.Atoi("abc")

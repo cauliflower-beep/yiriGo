@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 /*
-数组定义的几种方式
+	1. 数组定义的几种方式
 */
 func define() {
 	// 1.默认初始方式
@@ -29,6 +29,21 @@ func define() {
 	a := [...]*int{&x, &y}
 	fmt.Println(a)
 }
+
+/*
+	2.数组是值传递
+*/
+func fillNumCopy(l []int) {
+	l = append(l, 1)
+}
+func fillNumAddr(l *[]int) {
+	*l = append(*l, 2)
+}
 func main() {
 	define()
+	// 测试值传递还是地址传递
+	var l1, l2 []int
+	fillNumCopy(l1)
+	fillNumAddr(&l2)
+	fmt.Println("l1:", l1, "\n", "l2:", l2)
 }

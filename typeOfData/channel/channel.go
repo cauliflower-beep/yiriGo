@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sync"
 	"time"
 )
 
@@ -51,37 +50,6 @@ channel 可以与Unix shell 中的双向管道做类比：可以通过它发送�
 channel支持for-range的方式进行遍历，但需要注意两个细节：
 	1.遍历的时候，如果channel没有关闭，则会出现deadlock的错误;
 	2.遍历的时候，如果channel已经关闭，则会正常遍历数据，遍历完后会退出遍历
-需要注意的是，虽然通道可以关闭，但并不是一个必须执行的方法。因为通道本身会通过垃圾回收器，根据它是否可以访问来决定是否回收。
-
-如何优雅的关闭通道？
-1.没有简单通用的方法(或内建的检查)去检查一个通道是否已经关闭，不需要改变通道状态的那种；
-	可以通过语法 v, ok := <- ch测试 channel是否关闭，如果ok返回false,说明channel已经没有任何数据并且已被关闭
-2.关闭一个已经关闭的通道会panic，所以如果不知道是否通道已经关闭，去关闭它是很危险的；
-3.往一个已经关闭的通道发送值会panic，所以如果不知道通道是否已经关闭，往通道发送值是很危险的。
-
-通道关闭原则：
-1.不要在接收方关闭channel；以及如果有多个并发发送方的话，在发送方也不能关闭channel。
-换句话说，我们仅应该在一个发送goroutine中关闭通道，如果这个发送者是channel唯一的发送方的话。
-2.channel不像文件之类的，不需要经常去关闭，只有当你确实没有任何发送数据了，或者你想显式的结束range循环之类的时候可以关闭
-*/
-
-// 礼貌的关闭channel
-type Mychannel struct {
-	C    chan int
-	once sync.Once
-}
-
-func NewMychannel() *Mychannel {
-	return &Mychannel{C: make(chan int)}
-}
-
-func (mc *Mychannel) SafeClose() {
-	// 礼貌的关闭channel
-	mc.once.Do(func() {
-		close(mc.C)
-	})
-}
-
 /**************************************************************************************************/
 /*5.select
 上面介绍的都是只有一个channel的情况，如果存在多个channel，可通过关键字 select 监听channel上的数据流动。
