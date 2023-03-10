@@ -13,7 +13,7 @@ type Robot struct {
 	Motto string `json:"motto"`
 }
 
-func (r Robot) Getinfo() string {
+func (r Robot) GetInfo() string {
 	return fmt.Sprintf("this robot's id is %v,speed is %v,force is %v,motto is %v", r.Id, r.speed, r.force, r.Motto)
 }
 
@@ -24,7 +24,9 @@ func (r *Robot) SetInfo(id, speed, force int, motto string) {
 	r.Motto = motto
 }
 
-// 利用反射获取结构体字段
+// StructField
+//  @Description: 利用反射获取结构体字段
+//  @param r
 func StructField(r interface{}) {
 	t := reflect.TypeOf(r)  // 类型变量
 	v := reflect.ValueOf(r) // 值变量
@@ -57,14 +59,18 @@ func StructField(r interface{}) {
 	/*
 		NumField中已经做了类型检查，当发现调用者不是结构体时，就会抛出panic
 	*/
-	fmt.Println(num)
+	fmt.Println("{type's fieldNum:%d}", num)
 	// 4. 通过值变量获取结构体属性对应的值
 	value0 := v.Field(0)
 	fmt.Println(value0)
+	fieldNum := v.NumField()
+	fmt.Println("{value's fieldNum:%d}", fieldNum)
 	fmt.Println("*******************end************************")
 }
 
-// 利用反射获取结构体的方法信息
+// StructMethod
+//  @Description: 利用反射获取结构体的方法信息
+//  @param r
 func StructMethod(r interface{}) {
 	t := reflect.TypeOf(r)
 	v := reflect.ValueOf(r)
@@ -74,7 +80,7 @@ func StructMethod(r interface{}) {
 	}
 	// 1. 通过类型变量里面的Method可以获取结构体的方法
 	method0 := t.Method(0) // 这里的索引0和结构体方法的顺序是没有关系的，和结构体方法的ASCII有关系
-	//method1,ok := t.MethodByName("Getinfo") // 通过名称获取结构体方法
+	//method1,ok := t.MethodByName("GetInfo") // 通过名称获取结构体方法
 	//if ok{
 	//
 	//}
@@ -86,7 +92,7 @@ func StructMethod(r interface{}) {
 	// 3. 通过"值变量"执行方法 （注意需要使用值变量，并且要注意参数） v.Method(0).Call(nil) 或者 v.MethodByName("").Call(nil)
 	//info := v.Method(0).Call(nil)
 	//fmt.Println(info) // 返回的是一个 []Value
-	//fmt.Println(v.MethodByName("Getinfo").Call(nil))
+	//fmt.Println(v.MethodByName("GetInfo").Call(nil))
 	// 4. 执行方法传入参数 (注意需要使用“值变量”，并且要注意参数，接受的参数是[]reflect.Value的切片)
 	var params []reflect.Value
 	params = append(params, reflect.ValueOf(2))
@@ -98,7 +104,9 @@ func StructMethod(r interface{}) {
 
 }
 
-// 利用反射修改结构体属性
+// ChangeStruct
+//  @Description: 利用反射修改结构体属性
+//  @param r
 func ChangeStruct(r interface{}) {
 	t := reflect.TypeOf(r)
 	v := reflect.ValueOf(r)
@@ -123,9 +131,9 @@ func main() {
 	}
 	StructField(sam)
 	StructMethod(&sam)
-	fmt.Println(sam.Getinfo())
+	fmt.Println(sam.GetInfo())
 
 	ChangeStruct(&sam)
-	fmt.Println(sam.Getinfo())
+	fmt.Println(sam.GetInfo())
 
 }

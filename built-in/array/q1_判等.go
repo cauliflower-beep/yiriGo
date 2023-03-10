@@ -18,7 +18,7 @@ func main() {
 }
 
 /*
-答案：true
+答案：true 二者均为长度100，且元素值全是0的数组
 
 解析：
 	1. interface类型变量与非interface类型变量判等时，首先要求非interface类型实现了该接口，否则编译不过。本例中，

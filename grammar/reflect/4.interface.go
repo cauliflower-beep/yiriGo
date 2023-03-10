@@ -122,6 +122,7 @@ func main() {
 	/****value****/
 	reflect_Value(3)
 	reflect_Value("hello")
+	reflect_Value(e)
 
 	//set value
 	var f int64 = 60

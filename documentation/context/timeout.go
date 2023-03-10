@@ -61,8 +61,8 @@ func httphandler() {
 		注意：
 
 	*/
-	//dealAutoCancel(ctx) // auto cancel
-	dealManuCancel(ctx, cancel) //  manual cancel
+	dealAutoCancel(ctx) // auto cancel
+	//dealManuCancel(ctx, cancel) //  manual cancel
 }
 
 func main() {
