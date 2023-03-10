@@ -1,4 +1,4 @@
-package log
+package main
 
 // 日志通常分为以下几个级别
 func main() {

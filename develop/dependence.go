@@ -17,7 +17,7 @@ import (
 */
 
 func main() {
-	f, _ := os.Open("/dev/urandom")
+	f, _ := os.Open("/develop/urandom")
 	b := make([]byte, 16)
 	f.Read(b)
 	f.Close()

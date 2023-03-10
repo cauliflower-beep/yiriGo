@@ -38,13 +38,14 @@ func main() {
 		person{22, 12},
 	}
 	// 22.07.14
-	//sort.Sort(persons(arr))
+	sort.Sort(persons(arr))
+	fmt.Println("sort.Sort  res|", arr)
 
 	// 22.08.12
 	sort.Slice(arr, func(i, j int) bool {
 		return arr[i].age < arr[j].age
 	})
-	fmt.Println(arr)
+	fmt.Println("sort.Slice res|", arr)
 }
 
 // 一组接口，实现多种结构体排序	8.05
