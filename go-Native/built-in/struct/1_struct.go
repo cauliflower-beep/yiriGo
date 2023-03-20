@@ -67,7 +67,7 @@ Tags
 Tag由反引号括起来的一系列用空格分隔的 key:"value" 组成.
 */
 type Bird struct {
-	id     int    `json:"id" gorm:"AUTO_INCREMENT"`
+	id     int    `json:"id" curd:"AUTO_INCREMENT"`
 	name   string `json:"name"`
 	color  string `json:"color"`
 	weight int    `json:"weight"`

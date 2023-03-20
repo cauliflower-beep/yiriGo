@@ -1,4 +1,4 @@
-package gorm
+package curd
 
 /*
 	迁移也就是对表进行操作

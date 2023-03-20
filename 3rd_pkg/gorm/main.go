@@ -1,17 +1,16 @@
 package main
 
 import (
-	"yiriGo/3rd_pkg/gorm/gorm"
-	_ "yiriGo/3rd_pkg/gorm/gorm"
+	_ "yiriGo/3rd_pkg/gorm/curd"
 )
 
 func main() {
 	// 创建记录
-	//gorm.CreateRec()
-	//gorm.SelectCreate()
-	//gorm.OmitCreate()
-	//gorm.BatchCreate()
+	//curd.CreateRec()
+	//curd.SelectCreate()
+	//curd.OmitCreate()
+	//curd.BatchCreate()
 
 	// 查询记录
-	gorm.GetOnceRec()
+	//curd.GetOnceRec()
 }

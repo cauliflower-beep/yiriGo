@@ -238,7 +238,7 @@ db.Migrator().CurrentDatabase()
    ```go
    type User struct {
    	gorm.Model
-   	Name string `gorm:"size:255;index:idx_name,unique"`
+   	Name string `curd:"size:255;index:idx_name,unique"`
    }
    // 为 Name 字段创建索引,两种方法都可以
    db.Migrator().CreateIndex(&User{}, "Name")
@@ -279,8 +279,8 @@ db.Migrator().CurrentDatabase()
    ```go
    type User struct {
    	gorm.Model
-   	Name  string `gorm:"size:255;index:idx_name,unique"`
-   	Name2 string `gorm:"size:255;index:idx_name_2,unique"`
+   	Name  string `curd:"size:255;index:idx_name,unique"`
+   	Name2 string `curd:"size:255;index:idx_name_2,unique"`
    }
    db.Migrator().RenameIndex(&User{}, "idx_name", "idx_name_2")
    ```

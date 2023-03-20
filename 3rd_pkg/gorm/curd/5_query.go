@@ -1,4 +1,4 @@
-package gorm
+package curd
 
 /*
 	获取单条记录的方式有很多种
@@ -24,7 +24,7 @@ func GetOnceRec() {
 	/*
 		将获取到的记录填充到集合中
 		由于集合本身是不带有任何字段属性的，而且我们也不知道要去查哪个表
-		所以需要使用 gorm 提供的 Model 方法来告诉程序如何填充
+		所以需要使用 curd 提供的 Model 方法来告诉程序如何填充
 		反观前面，不管是 First Take Last, 都可以获取到一个对象及他的指针，进而可以得知要去查哪个表
 	*/
 	res := map[string]interface{}{}

@@ -1,4 +1,4 @@
-package gorm
+package curd
 
 /*
 	更新操作 和 创建操作差不多，可直接读文档

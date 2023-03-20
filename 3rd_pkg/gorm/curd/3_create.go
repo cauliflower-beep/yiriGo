@@ -1,4 +1,4 @@
-package gorm
+package curd
 
 type ArticleTag struct {
 	article_id  int64
@@ -45,7 +45,7 @@ func CreateRec() {
 // SelectCreate 指定几个字段创建
 func SelectCreate() {
 	c2 := c
-	// 只会创建选中的字段 以及 gorm 默认追踪的字段（例如 updateAt）. 未选中的字段为空
+	// 只会创建选中的字段 以及 curd 默认追踪的字段（例如 updateAt）. 未选中的字段为空
 	DB.Select("Name", "Age").Create(&c2)
 }
 
