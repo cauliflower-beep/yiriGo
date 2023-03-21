@@ -61,7 +61,69 @@ gin允许开发者在处理请求的过程中，加入自己的钩子（Hook）�
 1. 设置好中间件之后，后续的路由都会使用这个中间件；
 2. 设置在中间件之前的路由则不会生效。
 
-### 2.定义中间件
+### 2. 中间件原理
+
+上文提到，中间件是为了过滤路由而发明的一种机制，也就是http请求来到时，先经过中间件，再到具体的处理函数。
+
+我们来看一下gin.Context结构体的主要字段:
+
+```go
+// gin.Context 结构体
+type Context struct {
+	...
+	handlers HandlersChain 		// 函数指针切片对象
+	index 	 int8				// 对应函数指针切片中的索引下标，执行c.Next()时会向后移动index下标位置
+	...
+}
+
+type HandlerFunc func(*Context)  // 函数指针
+type HandlersChain []HandlerFunc // 函数指针切片
+```
+
+可以看到，gin框架的中间件函数和处理函数，是以切片形式的调用链条存在的（本质上就是函数指针切片）。
+
+在我们初始化了gin对象之后：r := gin.New()，到中间件生效，往往要经历如下两个过程：
+
+- 注册
+
+  r.Use().也就是不断的在上述的HandlerChain函数指针切片后执行append操作，去依次向调用链条中追加新注册的中间件函数
+
+  ```go
+  func (group *RouterGroup) Use(middleware ...HandlerFunc) IRoutes {
+  	group.Handlers = append(group.Handlers, middleware...)
+  	return group.returnObj()
+  }
+  ```
+
+- 调用
+
+  如下图，gin框架正是通过移动切片下标index的位置，实现中间件的不断向后调用。
+
+  但是这个index要如何去移动呢?下文提到的c.Next()会给我们答案。这个函数在每次调用时，将index向后移动，从而依次调用已注册的中间件。
+
+  ![index](.\img\index.png)
+
+  ```go
+  func (c *Context) Next() {
+  	c.index++
+  	for c.index < int8(len(c.handlers)) {
+  		c.handlers[c.index](c)
+  		c.index++
+  	}
+  }
+  ```
+
+- 停止调用后续
+
+  c.Abort()方法会阻止调用后续的中间件处理函数，正是因为它使得index移动到切片末尾了，所以后面的`中间件/路由处理函数`都没办法继续执行了。
+
+  ```go
+  func (c *Context) Abort() {
+  	c.index = abortIndex
+  }
+  ```
+
+### 3.定义中间件
 
 gin的中间件必须是一个gin.HandlerFunc类型，在自定义中间件函数时，通常采用如下两种写法：
 
@@ -127,7 +189,7 @@ authed.Use(middleware.JWT())
 
 ```
 
-### 3.注册中间件
+### 4.注册中间件
 
 gin支持注册全局中间件，也可以给单独路由或者路由组注册中间件。
 
@@ -139,7 +201,7 @@ gin支持注册全局中间件，也可以给单独路由或者路由组注册�
 
 简而言之，请求是队列处理，响应则是堆栈处理。
 
-#### 3.1注册全局中间件
+#### 1.注册全局中间件
 
 ```go
 func NewRouter() *gin.Engine {
@@ -164,7 +226,7 @@ func NewRouter() *gin.Engine {
 
 本地启动项目，在中间件Cors内部打个断点，会发现所有请求打过来，都会进入断点。说明本示例注册了一个全局的中间件。
 
-#### 3.2单独注册某个路由中间件
+#### 2.单独注册某个路由中间件
 
 ```go
 func main() {
@@ -190,7 +252,7 @@ func middleW() gin.HandlerFunc {
 
 这个自行测试。
 
-#### 3.3注册路由组中间件
+#### 3.注册路由组中间件
 
 代码示参见第二节，定义中间件部分。他将对一整个路由组生效。
 
@@ -198,7 +260,7 @@ func middleW() gin.HandlerFunc {
 
 中间件是可以嵌套的，来认识3个gin中用于中间件嵌套相关的函数：
 
-#### 4.1 Next()
+#### 1. Next()
 
 表示跳过当前中间件剩余内容，执行下一个中间件。当所有操作执行完之后，以出战的执行顺序返回，执行中间件的剩余代码。
 
@@ -234,7 +296,7 @@ func main() {
 }
 ```
 
-#### 4.2 return
+#### 2. return
 
 终止执行当前中间件剩余内容，执行下一个中间件。
 
@@ -280,7 +342,7 @@ func main() {
 }
 ```
 
-#### 4.3 Abort()
+#### 3. Abort()
 
 只执行当前中间件，操作完成后，以出栈的顺序，依次返回上一级中间件。
 
@@ -339,3 +401,7 @@ Recovery中间件会recover任何panic。如果有panic的话，会写入500响�
 #### 5.2 gin中间件中使用goroutine
 
 当在中间件或handler中启动新的goroutine时，不能使用原始的上下文（c *gin.Context），必须使用其只读副本（c.Copy())。
+
+#### 5.3 参数传递
+
+借助c.Set()和c.Get()方法，能使我们在不同的中间件函数中传递数据。
