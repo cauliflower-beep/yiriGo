@@ -33,7 +33,7 @@ func main() {
 	fmt.Println("cpuNum : ", cpuNum)
 
 	// 告诉调度器同时使用多个线程执行goroutine，并返回之前的设置。如果n<1,不会改变当前设置
-	// 但其实对于IO密集型的场景，可以把GOMAXPROCS的值超过CPU核数，在笔者维护的某个服务中，将GOMAXPROCS设为CPU核数的2倍，压测结果表明，吞吐能力大概能提升10%
+	// 但其实对于IO密集型的场景，可以把GOMAXPROCS的值超过CPU核数。例如在某些服务中，将GOMAXPROCS设为CPU核数的2倍，压测结果表明，吞吐能力大概能提升10%
 	runtime.GOMAXPROCS(16)
 	fmt.Println("ok")
 
