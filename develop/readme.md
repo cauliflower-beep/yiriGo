@@ -1,0 +1,250 @@
+这个目录下，主要记录实践过程中遇到的种种问题或知识点扩充。
+
+## 1. dependency injection依赖注入
+
+### 1.1 什么是DI？
+
+依赖注入（Dependency Injection，简称DI）意思是给予调用方它所需要的事物。它是一种设计模式，允许我们在代码中通过外部配置来管理对象之间的依赖关系。
+
+- “依赖”是指可被方法调用的事物。依赖注入形式下，调用方不再直接使用“依赖”，取而代之是“注入” 。
+- “注入”是指将“依赖”传递给调用方的过程。在“注入”之后，调用方才会调用该“依赖”。
+- 传递依赖给调用方，而不是让调用方直接获得依赖，这个是该设计的根本需求。
+
+简而言之，外部的依赖不应该由自身创建，而是应该从外部将依赖的对象注入。 例如：
+
+```go
+type Server struct{
+    Conf *Config // 依赖 Config
+}
+func NewServer()*Server{
+    return &{
+        Conf: config.New()
+    }
+}
+```
+
+上面的例子中，`Server` 依赖 `Config`，在Server的初始化中直接使用了config.New方法；如果后面 config.New 增加了参数，那我们还需要到Server的初始化方法中修改Conf，这实际上违背了`开放封闭原则`。 
+
+> 开放封闭原则（[OCP](https://baike.baidu.com/item/OCP/10693756?fromModule=lemma_inlink)，Open Closed Principle）是所有[面向对象](https://baike.baidu.com/item/面向对象/2262089?fromModule=lemma_inlink)原则的核心。软件设计本身所追求的目标就是封装变化、降低耦合，而开放封闭原则正是对这一目标的最直接体现。其`核心思想`是：
+>
+> 软件实体应该是可扩展，而不可修改的。也就是说，对扩展是开放的，而对修改是封闭的。
+>
+> 因此，开放封闭原则主要体现在两个方面：
+>
+> 对扩展开放，意味着有新的需求或变化时，可以对现有代码进行扩展，以适应新的情况。
+>
+> 对修改封闭，意味着类一旦设计完成，就可以独立完成其工作，而不要对类进行任何修改。
+
+具体说来，上述这段的设计中存在几个明显的问题：
+
+- 耦合性高：Server 承担了 Config 的初始化，如果 Config 的初始化过程发生改变，我们需要一并修改Server；
+- 扩展性差：一个Server的实例化过程只能构造自己的 Config，它不能使用其它已经实例化好的 Config；
+- 不利于单元测试：在完成单元测试的时候，我们无法测试不同类型的 Config 对于Server的影响。
+
+为此我们可以修改成下面这样：
+
+```go
+type Server struct{
+    Conf *Config // 依赖 Config
+}
+func NewServer(c *Config)*Server{
+    return &{
+        Conf: c
+    }
+}
+```
+
+这样，我们可以在外部对Config进行初始化然后注入到Server中。上述修改完成后，耦合性和扩展性的问题便解决掉了。
+
+对于Server来说，接收从外部传入的Config，其不关心Config的初始化的过程；另外，多个Server之间可共用一份 Config，并且可以做到随意替换；此外，测试的时候我们可以较为轻松对关键部位进行替换。
+
+### 1.2 为什么需要DI？
+
+需求不断堆积，代码逻辑越来越复杂，依赖越来越多，依赖注入可以帮助我们组织代码结构，保持各个模块解耦。这是因为依赖注入有以下优点：
+
+1. **依赖注入处理的关键问题是解耦**，解耦在代码工程学中的好处显而易见；
+2. 代码扩展性强，同事增强了可维护性；
+3. 更容易进行单元测试
+
+### 1.3 依赖注入到哪里？
+
+被依赖的模块，在创建模块时，被注入到（即当作参数传入）调用方的模块里面。
+
+### 1.4 golang 的依赖注入框架
+
+项目越来越大，开发合作的同学越来越多，项目启动的依赖也越来越多，而且依赖之间还有先后顺序，甚至还存在一些隐式的初始化顺序，如下述一段代码中：
+
+```go
+func main() {
+    config := NewConfig()
+    // db依赖配置
+    db, err := ConnectDatabase(config) 
+    if err != nil {
+        panic(err)
+    }
+    // PersonRepository 依赖db
+    personRepository := NewPersonRepository(db) 
+    // PersonService 依赖配置 和 PersonRepository
+    personService := NewPersonService(config, personRepository)
+    // NewServer 依赖配置和PersonService
+    server := NewServer(config, personService)
+    server.Run()
+}
+```
+
+在工程中实际的情形可远远要比上述情况复杂，此时如果存在框架来帮我们管理依赖，那可能会省心很多。
+
+#### 1.4.1 依赖注入框架的分类
+
+Golang 的依赖注入框架有两类：
+
+- 一类是通过反射在运行时进行依赖注入，典型代表是 uber 开源的[dig](https://link.zhihu.com/?target=https%3A//github.com/uber-go/dig)和 Facebook 的 [inject]([https://github.com/facebookarchive/inject](https://link.zhihu.com/?target=https%3A//github.com/facebookarchive/inject))
+- 另外一类是通过 generate 进行代码生成，典型代表是 Google 开源的 [wire](https://link.zhihu.com/?target=https%3A//www.cnblogs.com/failymao/articles/github.com/google/wire)。
+
+使用 dig 功能会强大一些，它们都是使用反射机制来实现运行时依赖注入(runtime dependency injection)，但是缺点就是错误只能在运行时才能发现，这样如果不小心的话可能会导致一些隐藏的 bug 出现。
+
+wire则是采用代码生成的方式来达到编译时依赖注入(compile-time dependency injection), 使用 wire 的缺点就是功能限制多一些，但是好处就是编译的时候就可以发现问题，并且生成的代码其实和我们自己手写相关代码差不太多，更符合直觉，心智负担更小，十分容易理解和调试。所以更加推荐 wire
+
+#### 1.4.2 wire 框架
+
+##### 安装
+
+运行如下命令：
+
+```go
+go get github.com/google/wire/cmd/wire 
+```
+
+wire命令行工具将被安装到 `$GOPATH/bin` 。只要确保 `$GOPATH/bin` 在 `$PATH` 中， `wire` 命令就可以在任何目录调用了。
+
+##### 使用
+
+在 iwire 中，有两个重要的概念：Provider和Injector：
+
+> [https://github.com/google/wire/blob/main/docs/guide.md#defining-providers](https://link.zhihu.com/?target=https%3A//github.com/google/wire/blob/main/docs/guide.md%23defining-providers)
+
+**Provider**: a function that can produce a value. These functions are ordinary Go code.
+
+**Injector**: a function that calls providers in dependency order. With Wire, you write the injector's signature, then Wire generates the function's body.
+
+**Provider——生成组件的普通方法**
+
+这些方法接收所需依赖作为参数，创建组件并将其返回。组件可以是对象或函数 —— 事实上它可以是任何类型，但单一类型在整个依赖图中只能有单一provider。典型的provider如下：
+
+```go
+// DefaultConnectionOpt 提供默认连接选项
+func DefaultConnectionOpt()*ConnectionOpt{...}
+// NewDb 提供一个Db对象
+func NewDb(opt *ConnectionOpt)(*Db, error){...}
+// NewUserLoadFunc 提供一个可以加载用户的功能
+func NewUserLoadFunc(db *Db)(func(int) *User, error){...}
+```
+
+实践中， 一组业务相关的provider时常被放在一起组织成 **ProviderSet**，以方便维护与切换。
+
+```go
+var DbSet = wire.NewSet(DefaultConnectionOpt, NewDb)
+```
+
+**Injector:——由`wire`自动生成的函数**
+
+函数内部会按根据依赖顺序调用相关provider。
+
+为了生成此函数， 我们在 `wire.go` (文件名非强制，但一般约定如此)文件中定义injector函数签名。 然后在函数体中调用`wire.Build` ，并以所需provider作为参数（无须考虑顺序）。
+
+由于`wire.go`中的函数并没有真正返回值，为避免编译器报错， 简单地用`panic`函数包装起来即可，不用担心执行时报错， 因为它不会实际运行，只是用来生成真正的代码的依据。
+
+```go
+// 一个简单的wire.go 示例
+// ***+build*** wireinject  
+
+package main  
+
+import "[github.com/google/wire](http://github.com/google/wire)"  
+
+func UserLoader()(func(int)*User, error){  
+
+  panic(wire.Build(NewUserLoadFunc, DbSet))  
+
+}  
+var DbSet = wire.NewSet(DefaultConnectionOpt, NewDb)
+```
+
+有了这些代码以后，运行 `wire` 命令将生成wire_gen.go文件，其中保存了injector 函数的真正实现。 wire.go 中若有非injector 的代码将被原样复制到 wire_gen.go 中（虽然技术上允许，但不推荐这样做）。 生成代码如下：
+
+```go
+// Code generated by Wire. DO NOT EDIT.  
+//***go:generate*** wire  
+//***+build*** !wireinject  
+package main  
+import (  
+  "[github.com/google/wire](http://github.com/google/wire)"  
+)  
+// Injectors from wire.go:  
+func UserLoader() (func(int) *User, error) {  
+  connectionOpt := DefaultConnectionOpt()  
+  db, err := NewDb(connectionOpt)  
+  if err != nil {  
+    return nil, err  
+  }  
+  v, err := NewUserLoadFunc(db)  
+  if err != nil {  
+    return nil, err  
+  }  
+  return v, nil  
+}  
+// wire.go:  
+var DbSet = wire.NewSet(DefaultConnectionOpt, NewDb)
+```
+
+上述代码有两点值得关注：
+
+1. wire.go 第一行 `// **_+build_** wireinject` ，这个 [build tag](https://link.zhihu.com/?target=https%3A//godoc.org/go/build%23hdr-Build_Constraints) 确保在常规编译时忽略wire.go 文件（因为常规编译时不会指定 `wireinject` 标签）。 与之相对的是 wire_gen.go 中的 `//**_+build_** !wireinject` 。两组对立的build tag保证在任意情况下， wire.go 与 wire_gen.go 只有一个文件生效， 避免了“UserLoader方法被重复定义”的编译错误
+2. 自动生成的UserLoader 代码包含了 error 处理。 与我们手写代码几乎相同。 对于这样一个简单的初始化过程， 手写也不算麻烦。 但当组件数达到几十、上百甚至更多时， 自动生成的优势就体现出来了。
+
+要触发“生成”动作有两种方式：`go generate` 或 `wire` 。前者仅在 wire_gen.go 已存在的情况下有效（因为wire_gen.go 的第三行 `//**_go:generate_** wire`），而后者在任何时候都有可以调用。 并且后者有更多参数可以对生成动作进行微调， 所以建议始终使用 `wire` 命令。
+
+然后我们就可以使用真正的injector了， 例如：
+
+```go
+package main  
+import "log"  
+func main() {  
+  fn, err := **UserLoader()**  
+  if err != nil {  
+    log.Fatal(err)  
+  }  
+  user := fn(123)  
+  ...  
+}
+```
+
+如果不小心忘记了某个provider， `wire` 会报出具体的错误， 帮忙开发者迅速定位问题。 例如我们修改 `wire.go` ，去掉其中的`NewDb`
+
+```go
+// ***+build*** wireinject  
+
+package main  
+
+import "[github.com/google/wire](http://github.com/google/wire)"  
+
+func UserLoader()(func(int)*User, error){  
+
+  panic(wire.Build(NewUserLoadFunc, DbSet))  
+
+}  
+
+var DbSet = wire.NewSet(DefaultConnectionOpt) //forgot add Db provider
+
+将会报出明确的错误：“`no provider found for *example.Db`”
+
+wire: /usr/example/wire.go:7:1: inject UserLoader: no provider found for *example.Db  
+
+  needed by func(int) *example.User in provider "NewUserLoadFunc" (/usr/example/provider.go:24:6)  
+
+wire: example: generate failed  
+
+wire: at least one generate failure
+```
+
+同样道理， 如果在wire.go 中写入了未使用的provider , 也会有明确的错误提示。
