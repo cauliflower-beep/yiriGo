@@ -131,6 +131,136 @@ DockerFile面向开发，Docker镜像成为交付标准，Docker容器则涉及�
 
 ### 10.3常用保留字指令
 
+参考 tomcat8 的dockerFile：https://github.com/docker-library/tomcat
+
+- *FROM*
+
+  基础镜像，即当前镜像是基于哪个镜像的。指定一个已经存在的镜像作为模板，第一条必须是from.
+
+- *MAINTAINER*
+
+  镜像维护者的姓名和邮箱地址。
+
+- *RUN*
+
+  容器构建时需要运行的命令。它分为两种格式：
+
+  ```go
+  // shell格式
+  RUN <命令行命令>
+  # <命令行命令>等同于，在终端操作的shell命令
+  RUN yum -y install vim
+  
+  // exec 格式
+  RUN ["可执行文件","参数1","参数2"]
+  # 例如:
+  # RUN ["./test.go","dev","offline"] <=> RUN ./test.go dev offline
+  ```
+
+  RUN .docker build.
+
+- EXPOSE
+
+  当前容器对外暴露的端口。
+
+- WORKDIR
+
+  指定在创建容器后，终端默认登陆进来的工作目录，一个初始落脚点。
+
+- USER
+
+  指定该镜像以什么样的用户去执行，如果都不指定，默认是root.
+
+- ENV
+
+  用来在构建镜像的过程中设置环境变量。
+
+  ENV MY_PATH /usr/mytest
+
+  这个环境变量可以在后续的任何 RUN 指令中使用，这就如同在命令前面指定了环境变量前缀一样；也可以在其他指令中直接使用这些环境变量，比如：
+
+  WORKDIR $MY_PATH
+
+- ADD
+
+  将宿主机目录下的文件拷贝进镜像，且会自动处理 URL 和解压 tar 压缩包。
+
+- COPY
+
+  类似ADD，拷贝文件和目录到镜像中。将从构建上下文目录中<源路径>的文件/目录复制到新的一层的镜像内的<目标路径>位置。
+
+  ```go
+  COPY ["src", "dest"]
+  <src 源路径>：源文件或者源目录
+  <dest 目标路径>：容器内的指定路径，该路径不用事先建好，路径不存在的话，会自动创建。
+  ```
+
+- VOLUME
+
+  容器数据卷，用于数据保存和持久化工作。
+
+- CMD
+
+  指定容器启动后要做的事情。CMD 指令的格式和 RUN 相似，也是两种格式：
+
+  ```go
+  // shell 格式
+  CMD <命令>
+  
+  // exec格式
+  CMD ["可执行文件","参数1","参数2"]
+  
+  // 参数列表格式：
+  CMD ["参数1","参数2"...].在指定了 ENTRYPOINT 指令后，用CMD 指定具体的参数。
+  ```
+
+  DockerFile中可以有多个CMD指令，但只有最后一个生效。CMD会被docker run之后的参数替换。
+
+  CMD 是在docker run时运行；RUN是在docker build时运行。
+
+- ENTRYPOINT
+
+  也是用来指定一个容器启动时要运行的命令。
+
+  类似CMD指令，但是ENTRYPOINT不会被docker run后面的命令覆盖，而且这些命令行参数会被当做参数送给 ENTRYPOINT 指令指定的程序。
+
+  ```go
+  // 命令格式
+  ENTRYPOINT ["<executeable>","<param1>","<param2>"...]
+  ```
+
+  ENTRYPOINT可以和CMD一起用，一般是变参才会使用CMD，这里的CMD等于是在给ENTRYPOINT传参。当指定了ENTRYPOINT后，CMD的含义就发生了变化，不再是直接运行其命令，而是将CMD的内容作为参数传递给ENTRYPOINT指令，他两个组合会变成 <ENTRYPOINT> "<CMD>".
+
+  来看个栗子：假设已通过DockerFile 构建了 nginx:test 镜像。
+
+  ```go
+  FROM nginx
+  
+  ENTRYPOINT ["nginx","-c"] // 定参
+  CMD ["/etc/nginx/nginx.conf"] // 变参
+  ```
+
+  | 是否传参         | 按照DockerFile编写执行         | 传参运行                                     |
+  | ---------------- | ------------------------------ | -------------------------------------------- |
+  | Docker命令       | docker run nginx:test          | docker run nginx:test -c /etc/nginx/new.conf |
+  | 衍生出的实际命令 | nginx -c /etc/nginx/nginx.conf | nginx -c /etc/nginx/new.conf                 |
+
+  这样做的好处是，在执行docker run的时候可以指定 ENTRYPOINT 运行所需的参数。
+
+  需要注意的是，如果DockerFile中存在多个 ENTRYPOINT指令，仅最后一个生效。
+
+### 10.4总结
+
+| BUILD         | Both    | RUN        |
+| ------------- | ------- | ---------- |
+| FROM          | WORKDIR | CMD        |
+| MAINTAINER    | USER    | ENV        |
+| COPY          |         | EXPOSE     |
+| ADD           |         | VOLUME     |
+| RUN           |         | ENTRYPOINT |
+| ONBUILD       |         |            |
+| .dockerignore |         |            |
+
 
 
 ## 11.Docker微服务
