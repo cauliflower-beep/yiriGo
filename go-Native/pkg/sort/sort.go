@@ -12,6 +12,8 @@ import (
 func main() {
 	// 数字数组排序
 	ints := []int{11, 44, 33, 22}
+	temp := ints[1:]
+	fmt.Println(temp)
 	sort.Ints(ints)                              //默认升序
 	fmt.Printf("%v\n", ints)                     //[11 22 33 44]
 	sort.Sort(sort.Reverse(sort.IntSlice(ints))) //降序排序
