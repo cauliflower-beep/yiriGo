@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// https://juejin.cn/post/7195388141115539493#heading-6
+
 // printSlice[T any] [T any]参数的类型，意思是该函数支持任何T类型;
 func printSlice[T any](s []T) {
 	for _, v := range s {
