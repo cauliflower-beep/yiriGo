@@ -17,7 +17,7 @@ import (
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 // randomString
-//  @Description: 为了避免编译器优化，我们首先实现一个生成长度为 n 的随机字符串的函数。
+// @Description: 为了避免编译器优化，我们首先实现一个生成长度为 n 的随机字符串的函数。
 // 然后利用这个函数生成字符串 str，将 str 拼接 N 次
 func randomString(n int) string {
 	b := make([]byte, n)
@@ -27,9 +27,9 @@ func randomString(n int) string {
 	return string(b)
 }
 
-// 在 Go 语言中，常见的字符串拼接方式有如下 5 种
+// 在 Go 语言中，常见的字符串拼接方式有 5 种 (漏了一种strings.join(s,"."))
 // plusConcat
-//  @Description: 使用 +
+// @Description: 使用 +
 func plusConcat(n int, str string) string {
 	s := ""
 	for i := 0; i < n; i++ {
@@ -39,7 +39,7 @@ func plusConcat(n int, str string) string {
 }
 
 // sprintfConcat
-//  @Description:使用 fmt.Sprintf
+// @Description:使用 fmt.Sprintf
 func sprintfConcat(n int, str string) string {
 	s := ""
 	for i := 0; i < n; i++ {
@@ -49,7 +49,7 @@ func sprintfConcat(n int, str string) string {
 }
 
 // builderConcat
-//  @Description:strings.Builder
+// @Description:strings.Builder
 func builderConcat(n int, str string) string {
 	var builder strings.Builder
 	for i := 0; i < n; i++ {
@@ -59,7 +59,7 @@ func builderConcat(n int, str string) string {
 }
 
 // bufferConcat
-//  @Description:使用 bytes.Buffer
+// @Description:使用 bytes.Buffer
 func bufferConcat(n int, s string) string {
 	buf := new(bytes.Buffer)
 	for i := 0; i < n; i++ {
@@ -69,7 +69,7 @@ func bufferConcat(n int, s string) string {
 }
 
 // byteConcat
-//  @Description:使用 []byte
+// @Description:使用 []byte
 func byteConcat(n int, str string) string {
 	buf := make([]byte, 0)
 	for i := 0; i < n; i++ {
@@ -79,7 +79,7 @@ func byteConcat(n int, str string) string {
 }
 
 // preByteConcat
-//  @Description:如果长度是可预知的，那么创建 []byte 时，我们还可以预分配切片的容量(cap)。
+// @Description:如果长度是可预知的，那么创建 []byte 时，我们还可以预分配切片的容量(cap)。
 func preByteConcat(n int, str string) string {
 	// make([]byte, 0, n*len(str)) 第二个参数是长度，第三个参数是容量(cap)，切片创建时，将预分配 cap 大小的内存
 	buf := make([]byte, 0, n*len(str))
@@ -105,10 +105,7 @@ func preByteConcat(n int, str string) string {
 	A Builder is used to efficiently build a string using Write methods. It minimizes memory copying.
 */
 // preBuilderConcat
-//  @Description:string.Builder 也提供了预分配内存的方式 Grow
-//  @param n
-//  @param str
-//  @return string
+// @Description:string.Builder 也提供了预分配内存的方式 Grow
 func preBuilderConcat(n int, str string) string {
 	var builder strings.Builder
 	builder.Grow(n * len(str))
