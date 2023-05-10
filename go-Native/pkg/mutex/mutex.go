@@ -12,6 +12,7 @@ func addNum() {
 		lock.Unlock()
 	}
 	wg.Done()
+	lock.TryLock()
 }
 
 func main() {
