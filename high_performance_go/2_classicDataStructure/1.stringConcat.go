@@ -17,7 +17,7 @@ import (
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 // randomString
-// @Description: 为了避免编译器优化，我们首先实现一个生成长度为 n 的随机字符串的函数。
+// @Description: 为了避免编译器优化，我们首先实现一个函数，可以生成长度为 n 的随机字符串。
 // 然后利用这个函数生成字符串 str，将 str 拼接 N 次
 func randomString(n int) string {
 	b := make([]byte, n)
@@ -28,6 +28,7 @@ func randomString(n int) string {
 }
 
 // 在 Go 语言中，常见的字符串拼接方式有 5 种 (漏了一种strings.join(s,"."))
+
 // plusConcat
 // @Description: 使用 +
 func plusConcat(n int, str string) string {

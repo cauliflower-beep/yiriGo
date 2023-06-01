@@ -4,6 +4,8 @@ import "fmt"
 
 // https://juejin.cn/post/7195388141115539493#heading-6
 
+// https://juejin.cn/post/7080938405449695268
+
 // printSlice[T any] [T any]参数的类型，意思是该函数支持任何T类型;
 func printSlice[T any](s []T) {
 	for _, v := range s {
@@ -11,12 +13,18 @@ func printSlice[T any](s []T) {
 	}
 }
 
+func Add[T int | string](a T, b T) T {
+	return a + b
+}
 func main() {
 	printSlice[int]([]int{66, 77, 88, 99, 100})
 	printSlice[float64]([]float64{1.1, 2.2, 5.5})
 	printSlice[string]([]string{"烤鸡", "烤鸭", "烤鱼", "烤面筋"})
 	//省略显示类型
 	printSlice([]int64{55, 44, 33, 22, 11})
+
+	fmt.Println(Add[int](1, 2))
+	fmt.Println(Add[string]("hello ", "world"))
 }
 
 /*
