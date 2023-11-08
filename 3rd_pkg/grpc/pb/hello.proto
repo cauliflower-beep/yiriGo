@@ -12,6 +12,15 @@ message Res{
   string message = 1;
 }
 
+message GetShowReq {
+  string date = 1; // 待获取日期
+}
+
+message ShowRes{
+  string show = 1;
+}
+
 service  HelloGRPC{
   rpc SayHi(Req) returns (Res);
+  rpc GetAwesomeShow(GetShowReq) returns (ShowRes);
 }
