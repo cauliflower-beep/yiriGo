@@ -9,7 +9,7 @@ import (
 	超时控制在网络编程中是非常常见的，利用 context.WithTimeout 和 time.After 都能够很轻易地实现。
 */
 
-func doBadthing(done chan bool) {
+func doBadThing(done chan bool) {
 	time.Sleep(time.Second)
 	done <- true
 }
@@ -42,7 +42,8 @@ func timeout(f func(chan bool)) error {
 */
 
 // timeoutWithBuffer
-//  @Description: 创建有缓冲的channel
+//
+//	@Description: 创建有缓冲的channel
 func timeoutWithBuffer(f func(chan bool)) error {
 	// 缓冲区设置为1 即使没有receiver, sender也不会阻塞
 	done := make(chan bool, 1)
@@ -57,8 +58,9 @@ func timeoutWithBuffer(f func(chan bool)) error {
 }
 
 // doGoodthing
-//  @Description: 在子协程的处理函数里面，用select发送
-//  @param done
+//
+//	@Description: 在子协程的处理函数里面，用select发送
+//	@param done
 func doGoodthing(done chan bool) {
 	time.Sleep(time.Second)
 	/*
@@ -88,8 +90,9 @@ func doGoodthing(done chan bool) {
 */
 
 // do2phases
-//  @Description: 分段任务
-//  @Description: 这段代码是想表达，当父协程退出之后，子协程能不能在一定时间后也退出
+//
+//	@Description: 分段任务
+//	@Description: 这段代码是想表达，当父协程退出之后，子协程能不能在一定时间后也退出
 func do2phases(phase1, done chan bool) {
 	time.Sleep(time.Second) // 第1段
 	select {

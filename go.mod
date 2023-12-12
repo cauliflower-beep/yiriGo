@@ -11,10 +11,6 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/smallnest/rpcx v1.7.4
 	github.com/spf13/cobra v1.6.1
-	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.0.515
-	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ocr v1.0.515
-	google.golang.org/grpc v1.59.0
-	google.golang.org/protobuf v1.31.0
 	gorm.io/driver/mysql v1.3.5
 	gorm.io/gorm v1.23.8
 )
@@ -48,6 +44,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/grandcat/zeroconf v1.0.0 // indirect
 	github.com/hashicorp/consul/api v1.12.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
@@ -110,8 +107,7 @@ require (
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/tools v0.6.0 // indirect
-	google.golang.org/genproto v0.0.0-20230822172742-b8732ec3820d // indirect
-	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.3.0 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
