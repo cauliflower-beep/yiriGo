@@ -40,7 +40,7 @@ b := bytes.NewBufferString(s string)  //从一个string变量，构造一个Buff
 可以通过 b.Grow来初始化一个 容量大小为n的buffer
 
 ```go
-// Grow 增加一个n长度的 buffer, 当使用Grow(n)后，至少可以有b个自己，可以写入到buffer里面，如果n是一个负数，Grow会panic，如果buffer不能Grow，会导致panic然后报错 ErrTooLarge
+// Grow 增加一个n长度的 bytes, 当使用Grow(n)后，至少可以有b个自己，可以写入到buffer里面，如果n是一个负数，Grow会panic，如果buffer不能Grow，会导致panic然后报错 ErrTooLarge
 b.Grow(n int)
 ```
 

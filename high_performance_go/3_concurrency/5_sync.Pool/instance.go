@@ -12,7 +12,7 @@ package main
 /*
 	fmt.Printf 的调用是非常频繁的，利用 sync.Pool 复用 pp 对象能够极大的提升性能，减少内存分配次数及占用，降低 GC 压力
 	type pp struct {
-	buf buffer
+	buf bytes
 	...
 	}
 

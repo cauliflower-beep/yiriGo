@@ -6,8 +6,7 @@ import (
 
 // go test -bench="0$" .
 
-// benchmarkGenerate
-//  @Description: 辅助函数, 允许传入参数 i
+// benchmarkGenerate 辅助函数, 允许传入参数 i
 func benchmarkGenerate(i int, b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		generate(i)
