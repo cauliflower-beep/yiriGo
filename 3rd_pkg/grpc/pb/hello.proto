@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package="./";
+option go_package="./"; // 编译生成的代码存放在当前目录中
 
 package pb;
 

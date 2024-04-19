@@ -36,13 +36,14 @@ func (s *server) GetAwesomeShow(ctx context.Context, in *pb.GetShowReq) (*pb.Sho
 }
 
 func main() {
-	//取出server
+
 	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
 		fmt.Printf("failed to listen:%v\n", err)
 	}
 
+	// 创建 rpc 服务器
 	s := grpc.NewServer()
 	pb.RegisterHelloGRPCServer(s, &server{})
 	fmt.Printf("server listening at %v\n", lis.Addr())
