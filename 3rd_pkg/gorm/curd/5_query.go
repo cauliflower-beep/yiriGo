@@ -1,7 +1,11 @@
 package curd
 
+import (
+	"time"
+)
+
 /*
-	获取单条记录的方式有很多种
+获取单条记录的方式有很多种
 */
 var fc Character
 var tc Character
@@ -38,4 +42,24 @@ func GetRecWithCondition() {
 	// 根据主键条件检索
 	//db.First(&user, 10) 	// 后面的参数默认是给主键使用的
 	//db.First(&user, "name=?","goku")	// 当然也可以通过指定参数名的方式来附加检索条件
+}
+
+// 测试gorm查询时，空字段会自动替换成上一个非空字段的问题
+type role struct {
+	Id         int       `gorm:"column:id"`
+	Name       string    `gorm:"column:name"`
+	ModifyTime time.Time `gorm:"column:modify_time"`
+	NickName   string    `gorm:"column:nickname"`
+}
+
+func GetRecs() {
+	//var roles []role
+	//DB.Table("gormtest").Find(&roles)
+	//fmt.Println(roles[1].ModifyTime)
+	//Println(roles)
+
+	var recs []map[string]interface{}
+	DB.Table("gormtest").Find(&recs)
+	//fmt.Println(recs[1].ModifyTime)
+	Println(recs)
 }

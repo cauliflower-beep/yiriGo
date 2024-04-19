@@ -18,11 +18,11 @@ go build xxx
 
 比如这里设置为：输出到当前目录。
 
-![image-20220817182406617](\img\image-20220817182406617.png)
+![image-20220817182406617](.\img\image-20220817182406617.png)
 
 ### 2.编译配置
 
-![image-20220817183325243](E:\workspace\src\yiriGo\black_tech\crossCompile\img\image-20220817183325243.png)
+![image-20220817183325243](.\img\image-20220817183325243.png)
 
 ### 3.编译
 

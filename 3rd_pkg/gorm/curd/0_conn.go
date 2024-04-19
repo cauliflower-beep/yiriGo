@@ -11,11 +11,11 @@ import (
 var DB *gorm.DB
 var err error
 
-var dsn = "root:admin123@tcp(127.0.0.1:3306)/gormtest?charset=utf8mb4&parseTime=True&loc=Local"
+var dsn = "root:admin123@tcp(127.0.0.1:3306)/test111?charset=utf8mb4&parseTime=True&loc=Local"
 
 /*
-	推荐使用增加配置的方式链接 mysql
-	因为比如字符类型，gorm在创建表的时候会默认使用比较大的 text 类型，而我们日常使用最多的其实是 varchar
+推荐使用增加配置的方式链接 mysql
+因为比如字符类型，gorm在创建表的时候会默认使用比较大的 text 类型，而我们日常使用最多的其实是 varchar
 */
 func init() {
 	DB, err = gorm.Open(mysql.New(mysql.Config{

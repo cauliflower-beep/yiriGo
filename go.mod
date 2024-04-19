@@ -6,11 +6,14 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394
 	github.com/gin-gonic/gin v1.8.1
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/goburrow/cache v0.1.4
 	github.com/google/uuid v1.3.1
 	github.com/robfig/cron v1.2.0
 	github.com/smallnest/rpcx v1.7.4
 	github.com/spf13/cobra v1.6.1
+	google.golang.org/grpc v1.31.0
+	google.golang.org/protobuf v1.31.0
 	gorm.io/driver/mysql v1.3.5
 	gorm.io/gorm v1.23.8
 )
@@ -107,7 +110,7 @@ require (
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/tools v0.6.0 // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
+	google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
