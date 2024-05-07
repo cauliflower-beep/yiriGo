@@ -7,7 +7,7 @@ import "fmt"
 	我们将使用简单工厂模式来创建这些图形对象，而无需直接暴露它们的创建细节给客户端。
 */
 
-/**************aimple_factory*************************/
+/**************simple_factory*************************/
 
 // Shape represents a geometric shape.
 type Shape interface {

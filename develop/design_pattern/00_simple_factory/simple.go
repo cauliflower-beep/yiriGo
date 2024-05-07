@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// API is interface
+// API is an interface
 type API interface {
 	Say(name string) string
 }
