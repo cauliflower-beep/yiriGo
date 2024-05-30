@@ -58,7 +58,7 @@ func (c *helloGRPCClient) GetAwesomeShow(ctx context.Context, in *GetShowReq, op
 }
 
 // HelloGRPCServer is the server API for HelloGRPC service.
-// All implementations must embed UnimplementedHelloGRPCServer
+// All implementations must _embed UnimplementedHelloGRPCServer
 // for forward compatibility
 type HelloGRPCServer interface {
 	SayHi(context.Context, *Req) (*Res, error)

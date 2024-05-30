@@ -11,7 +11,7 @@ func failOnError2(err error, msg string) {
 	}
 }
 
-func main(){
+func main() {
 	// 连接rabbitmq
 	conn, err := amqp.Dial("amqp://lsx_01:admin123@127.0.0.1:5672/my_vhost")
 	failOnError2(err, "Failed to connect to RabbitMQ")
@@ -53,6 +53,6 @@ func main(){
 		}
 	}()
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	log.Printf(" [*] Waiting for messages. To _exit press CTRL+C")
 	<-forever
 }

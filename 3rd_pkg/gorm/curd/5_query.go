@@ -1,6 +1,7 @@
 package curd
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -53,13 +54,13 @@ type role struct {
 }
 
 func GetRecs() {
-	//var roles []role
-	//DB.Table("gormtest").Find(&roles)
-	//fmt.Println(roles[1].ModifyTime)
-	//Println(roles)
+	var roles []role
+	DB.Table("gormtest").Find(&roles)
+	fmt.Println(roles[1].ModifyTime)
+	Println(roles)
 
-	var recs []map[string]interface{}
-	DB.Table("gormtest").Find(&recs)
-	//fmt.Println(recs[1].ModifyTime)
-	Println(recs)
+	//var recs []map[string]interface{}
+	//DB.Table("gormtest").Find(&recs)
+	////fmt.Println(recs[1].ModifyTime)
+	//Println(recs)
 }
