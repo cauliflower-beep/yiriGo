@@ -1,4 +1,4 @@
-package curd
+package model
 
 import (
 	"database/sql"
@@ -6,17 +6,20 @@ import (
 )
 
 /*
-	curd 允许使用自定义类型，但必须实现两个接口：
-		Scan(value interface{}) error
-		Value() (driver.Value, error)
+curd 允许使用自定义类型，但必须实现两个接口：
 
-	这样 curd 才能正常识别转化，否则会读不出来：
-		define a valid foreign key for relations or implement the Valuer/Scanner interface
+	Scan(value interface{}) error
+	Value() (driver.Value, error)
 
-	因为无论你怎么约定，例如下面的自定义 Hobby 字段，数据库根本不存在这样一个数组类型的切片
-	curd 认为你的自定义类型，要满足两个条件：
-		1.首先要有一个能够获取 value 的方法；
-		2.其次需要知道，scan 之后，映射到你自定义类型的哪个字段上
+这样 curd 才能正常识别转化，否则会读不出来：
+
+	define a valid foreign key for relations or implement the Valuer/Scanner interface
+
+因为无论你怎么约定，例如下面的自定义 Hobby 字段，数据库根本不存在这样一个数组类型的切片
+curd 认为你的自定义类型，要满足两个条件：
+
+	1.首先要有一个能够获取 value 的方法；
+	2.其次需要知道，scan 之后，映射到你自定义类型的哪个字段上
 */
 type Hobby []string
 type Job struct {

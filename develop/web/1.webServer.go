@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -27,8 +28,59 @@ func sayHelloName(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello 广志!") //这个写入到w的是输出到客户端的
 }
 
+func getParams(w http.ResponseWriter, r *http.Request) {
+	parameter := r.URL.Query().Get("name")
+	if parameter == "" {
+		fmt.Println("parameter is nill")
+		return
+	}
+	fmt.Println("参数name值：", parameter)
+
+	age := r.URL.Query().Get("age")
+	if age == "" {
+		fmt.Println("age is nill")
+		return
+	}
+	fmt.Println("参数age值：", age)
+	//fmt.Fprintln(w,parameter)
+}
+
+func echoJson(w http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("name")
+	if name == "" {
+		fmt.Println("name is nill")
+		return
+	}
+	fmt.Println("参数name值：", name)
+
+	age := r.URL.Query().Get("age")
+	if age == "" {
+		fmt.Println("age is nill")
+		return
+	}
+	fmt.Println("参数age值：", age)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(200)
+
+	obj := make(map[string]interface{})
+	obj["name"] = name
+	obj["age"] = age
+	encoder := json.NewEncoder(w)
+	if err := encoder.Encode(obj); err != nil {
+		//http.Error(c.Writer, err.Error(), 500)
+		fmt.Println("echoJson failed.")
+	}
+	fmt.Println("echoJson done")
+}
+
 func main() {
 	http.HandleFunc("/", sayHelloName)       //设置访问的路由
+	http.HandleFunc("/getParams", getParams) //设置访问的路由
+
+	// 回写json数据
+	http.HandleFunc("/echoJson", echoJson) //设置访问的路由
+
 	err := http.ListenAndServe(":8989", nil) //设置监听的端口
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)

@@ -1,4 +1,4 @@
-package curd
+package utils
 
 import "fmt"
 
