@@ -248,7 +248,7 @@ func main(){
    for{
        // 等待 tcp 连接到达
        conn,_ := l.Accept()     
-       // 开启一个 goroutine 负责一笔客户端请求的处理
+       // 开启一个 _goroutine 负责一笔客户端请求的处理
        go serve(conn)
    }
 }

@@ -14,12 +14,12 @@ type Shape interface {
 	Draw()
 }
 
-// Circle represents a circle shape.
+// Circle represents a _circle shape.
 type Circle struct{}
 
-// Draw draws the circle.
+// Draw draws the _circle.
 func (c *Circle) Draw() {
-	fmt.Println("Drawing a circle.")
+	fmt.Println("Drawing a _circle.")
 }
 
 // Rectangle represents a rectangle shape.
@@ -57,7 +57,7 @@ func (sf *ShapeFactory) CreateShape(shapeType ShapeType) Shape {
 func main() {
 	factory := &ShapeFactory{}
 
-	// Create a circle
+	// Create a _circle
 	circle := factory.CreateShape(CircleShape)
 	circle.Draw()
 

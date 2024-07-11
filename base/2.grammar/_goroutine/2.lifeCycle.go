@@ -17,7 +17,7 @@ main函数结束的时候，所有goroutine都会跟着一起结束。这个是�
 func child() {
 	fmt.Println("kid:好啦，我开始写啦...")
 	time.Sleep(time.Second * 5)
-	//panic("kid:这题我不会写QAQ")
+	//_panic("kid:这题我不会写QAQ")
 	/*
 		关于协程崩溃如何优雅重启，参考例子：
 		https://blog.csdn.net/JusticeAngle/article/details/90614344

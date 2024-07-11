@@ -51,10 +51,10 @@ go tool pprof http://localhost:6060/debug/pprof/profile?seconds=120     # wait 1
 go tool pprof http://localhost:6060/debug/pprof/heap      # heap profile
 
 # 下载goroutine profile
-go tool pprof http://localhost:6060/debug/pprof/goroutine # goroutine profile
+go tool pprof http://localhost:6060/debug/pprof/_goroutine # _goroutine profile
 
 # 下载block profile
-go tool pprof http://localhost:6060/debug/pprof/block     # goroutine blocking profile
+go tool pprof http://localhost:6060/debug/pprof/block     # _goroutine blocking profile
 
 # 下载mutex profile
 go tool pprof http://localhost:6060/debug/pprof/mutex
@@ -238,7 +238,7 @@ If you don’t know the answer, that’s a potential memory leak as the goroutin
 goroutine导致内存泄露的demo3.编译运行，然后使用`go tool pprof`获取gorourine的profile文件。
 
 ```go
-go tool pprof http://localhost:6060/debug/pprof/goroutine
+go tool pprof http://localhost:6060/debug/pprof/_goroutine
 ```
 
 已经通过pprof命令获取了2个goroutine的profile文件:

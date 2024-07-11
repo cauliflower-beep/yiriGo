@@ -41,7 +41,7 @@ func safeClose(ch chan T) (justClosed bool) {
 	}()
 
 	// assume ch != nil here.
-	close(ch) // panic if ch is closed
+	close(ch) // _panic if ch is closed
 	return true
 }
 
@@ -52,7 +52,7 @@ func safeSend(ch chan T, val T) (closed bool) {
 			closed = true
 		}
 	}()
-	ch <- val // panic if ch is closed
+	ch <- val // _panic if ch is closed
 	return false
 }
 

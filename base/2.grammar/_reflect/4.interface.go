@@ -10,7 +10,7 @@ import (
 反射获取interface类型信息
 */
 
-/*************************reflect.TypeOf***************************************************/
+/*************************_reflect.TypeOf***************************************************/
 //reflect_Type 参数为一个空接口，意味着可以接受任意类型的值
 func reflect_Type(a interface{}) {
 	t := reflect.TypeOf(a) // 类型
@@ -48,7 +48,7 @@ type Person struct {
 	age  int
 }
 
-/****************************reflect.ValueOf****************************************/
+/****************************_reflect.ValueOf****************************************/
 //reflect_Value 参数为一个空接口，意味着可以接受任意类型的值
 func reflect_Value(a interface{}) {
 	/*
@@ -62,7 +62,7 @@ func reflect_Value(a interface{}) {
 	*/
 	/*
 		2.采用反射的方式
-		v := reflect.ValueOf(a)
+		v := _reflect.ValueOf(a)
 		// 反射获取变量的原始值
 		n := v.Int() + 10
 		fmt.Println(n)
@@ -70,7 +70,7 @@ func reflect_Value(a interface{}) {
 
 	/*
 		不同类型的原始值是怎样的呢？
-		reflect.Value类型也有一个Kind()方法,可以通过它获取变量的种类信息
+		_reflect.Value类型也有一个Kind()方法,可以通过它获取变量的种类信息
 	*/
 	v := reflect.ValueOf(a)
 	k := v.Kind()
@@ -107,7 +107,7 @@ func main() {
 	// get type of interface
 	a := 3.64
 	reflect_Type(a)
-	b := "hello reflect!"
+	b := "hello _reflect!"
 	reflect_Type(b)
 	c := make(map[string]string)
 	reflect_Type(c)

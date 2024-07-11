@@ -6,9 +6,9 @@ import (
 )
 
 /*
-	使用方法
-	select 语句用于监控并选择一组case语句执行相应的代码。
-	他看起来类似于 switch 语句，但是所有 case 中的表达式都必须是 channel 的发送或接收操作。
+使用方法
+select 语句用于监控并选择一组case语句执行相应的代码。
+他看起来类似于 switch 语句，但是所有 case 中的表达式都必须是 channel 的发送或接收操作。
 */
 var selectWg sync.WaitGroup
 
@@ -28,7 +28,7 @@ func selectDemo(ch1, ch2 chan int) {
 
 /*
 	死锁问题
-	如果你执行过 ./block.go 会发现main中的 goroutine 执行完之后，终端报了死锁的错误，原因就是main中存在 select{}.
+	如果你执行过 ./block.go 会发现main中的 _goroutine 执行完之后，终端报了死锁的错误，原因就是main中存在 select{}.
 	select 为什么会存在死锁问题呢?答案都在spec中:https://go.dev/ref/spec#Select_statements
 	翻译第一条：在输入"select"语句时，接收操作的通道操作数以及发送语句的通道和右侧表达式仅按源顺序计算一次。
 	意味着 select 会拿到右侧语句的结果才执行，如果拿不到就会一直堵塞，造成死锁。
@@ -56,7 +56,7 @@ func demo1() {
 }
 
 func getVal(i int) int {
-	//panic("im done")
+	//_panic("im done")
 	fmt.Println("getVal, i=", i)
 	return i
 }

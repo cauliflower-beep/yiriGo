@@ -20,7 +20,7 @@ goroutine的大小并不是一成不变的。
 const numGoroutines = 1e4
 
 /*
-计算一个 goroutine 有多大
+计算一个 _goroutine 有多大
 */
 func main() {
 	memConsumed := func() uint64 {

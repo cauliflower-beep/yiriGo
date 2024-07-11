@@ -57,6 +57,6 @@ func main() {
 	for _, link := range links {
 		go checkLink(link)
 	}
-	fmt.Println("hello goroutine~")
+	fmt.Println("hello _goroutine~")
 	time.Sleep(3 * time.Second) // 等待子goroutine执行完毕
 }

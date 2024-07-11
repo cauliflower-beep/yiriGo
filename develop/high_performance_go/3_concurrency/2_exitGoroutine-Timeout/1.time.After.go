@@ -50,7 +50,7 @@ func timeoutWithBuffer(f func(chan bool)) error {
 	go f(done)
 	select {
 	case <-done:
-		fmt.Println("goroutine done")
+		fmt.Println("_goroutine done")
 		return nil
 	case <-time.After(time.Millisecond):
 		return fmt.Errorf("timeout")
@@ -119,24 +119,24 @@ func timeoutFirstPhase() error {
 }
 
 /*
-	强制kill goroutine 可能吗？——答案是不能。
+	强制kill _goroutine 可能吗？——答案是不能。
 	上面的例子，即时超时返回了，但是子协程仍在继续运行，直到自己退出。那么有可能在超时的时候，就强制关闭子协程吗？
-		——答案是不能。goroutine 只能自己退出，而不能被其他 goroutine 强制关闭或杀死。
-	goroutine 被设计为不可以从外部无条件地结束掉，只能通过 channel 来与它通信。
-	也就是说，每一个 goroutine 都需要承担自己退出的责任。
-	(A goroutine cannot be programmatically killed. It can only commit a cooperative suicide.)
+		——答案是不能。_goroutine 只能自己退出，而不能被其他 _goroutine 强制关闭或杀死。
+	_goroutine 被设计为不可以从外部无条件地结束掉，只能通过 channel 来与它通信。
+	也就是说，每一个 _goroutine 都需要承担自己退出的责任。
+	(A _goroutine cannot be programmatically killed. It can only commit a cooperative suicide.)
 
 	详细可以参看github上关于这道题目的讨论：
 	https://github.com/golang/go/issues/32610
 	摘抄其中几个比较有意思的观点如下：
-	1.杀死一个 goroutine 设计上会有很多挑战，当前所拥有的资源如何处理？堆栈如何处理？defer 语句需要执行么？
-	2.如果允许 defer 语句执行，那么 defer 语句可能阻塞 goroutine 退出，这种情况下怎么办呢？
+	1.杀死一个 _goroutine 设计上会有很多挑战，当前所拥有的资源如何处理？堆栈如何处理？defer 语句需要执行么？
+	2.如果允许 defer 语句执行，那么 defer 语句可能阻塞 _goroutine 退出，这种情况下怎么办呢？
 
-	因为 goroutine 不能被强制 kill，在超时或其他类似的场景下，为了 goroutine 尽可能正常退出，建议如下：
+	因为 _goroutine 不能被强制 kill，在超时或其他类似的场景下，为了 _goroutine 尽可能正常退出，建议如下：
 
-	尽量使用非阻塞 I/O（非阻塞 I/O 常用来实现高性能的网络库），阻塞 I/O 很可能导致 goroutine 在某个调用一直等待，而无法正确结束。
+	尽量使用非阻塞 I/O（非阻塞 I/O 常用来实现高性能的网络库），阻塞 I/O 很可能导致 _goroutine 在某个调用一直等待，而无法正确结束。
 	业务逻辑总是考虑退出机制，避免死循环。
-	任务分段执行，超时后即时退出，避免 goroutine 无用的执行过多，浪费资源。
+	任务分段执行，超时后即时退出，避免 _goroutine 无用的执行过多，浪费资源。
 */
 
 // 对于chan只需要做一次信号传递，且没有数据传输时，可以用 make(chan struct{})传递时可以用close，标准库的context就是这么玩的。

@@ -1507,7 +1507,7 @@ For example:
 
 ```go
 // Bad
-// 没有办法阻止这个 goroutine。它将一直运行到应用程序退出。
+// 没有办法阻止这个 _goroutine。它将一直运行到应用程序退出。
 go func() {
   for {
     flush()
@@ -1517,8 +1517,8 @@ go func() {
 
 // Good
 var (
-  stop = make(chan struct{}) // 告诉 goroutine 停止
-  done = make(chan struct{}) // 告诉我们 goroutine 退出了
+  stop = make(chan struct{}) // 告诉 _goroutine 停止
+  done = make(chan struct{}) // 告诉我们 _goroutine 退出了
 )
 go func() {
   defer close(done)
@@ -1533,10 +1533,10 @@ go func() {
     }
   }
 }()
-// 这个 goroutine 可以用 close(stop) 退出,
+// 这个 _goroutine 可以用 close(stop) 退出,
 // 我们可以等待它退出 <-done
 // 其它...
-close(stop)  // 指示 goroutine 停止
+close(stop)  // 指示 _goroutine 停止
 <-done       // and wait for it to _exit
 ```
 
@@ -1572,7 +1572,7 @@ close(stop)  // 指示 goroutine 停止
       // ...
     }()
     
-    // To wait for the goroutine to finish:
+    // To wait for the _goroutine to finish:
     <-done
     ```
 
@@ -1586,8 +1586,8 @@ close(stop)  // 指示 goroutine 停止
 
 ```go
 // Bad
-// 当用户导入这个包时，无条件地生成一个后台 goroutine。
-// 用户无法控制 goroutine 或停止它的方法。
+// 当用户导入这个包时，无条件地生成一个后台 _goroutine。
+// 用户无法控制 _goroutine 或停止它的方法。
 func init() {
   go doWork()
 }
@@ -1600,7 +1600,7 @@ func doWork() {
 // Good
 // 仅当用户请求时才生成worker。
 // 提供一种关闭 dowork 的方法，以便用户可以释放 worker 使用的资源。
-// 请注意，如果 worker 管理多个 goroutine，则应使用 WaitGroup
+// 请注意，如果 worker 管理多个 _goroutine，则应使用 WaitGroup
 type Worker struct{ /* ... */ }
 func NewWorker(...) *Worker {
   w := &Worker{
@@ -2193,9 +2193,9 @@ type Book struct {
 }
 // later
 var b Book
-b.Read(...)  // panic: nil pointer
-b.String()   // panic: nil pointer
-b.Write(...) // panic: nil pointer
+b.Read(...)  // _panic: nil pointer
+b.String()   // _panic: nil pointer
+b.Write(...) // _panic: nil pointer
 
 type Client struct {
     sync.Mutex
@@ -2556,7 +2556,7 @@ sptr := &T{Name: "bar"} // 结构体指针初始化
 // Bad
 var (
   // m1 读写安全;
-  // m2 在写入时会 panic
+  // m2 在写入时会 _panic
   // 声明和初始化看起来非常相似
   m1 = map[T1]T2{}
   m2 map[T1]T2
@@ -2565,7 +2565,7 @@ var (
 // Good
 var (
   // m1 读写安全;
-  // m2 在写入时会 panic
+  // m2 在写入时会 _panic
   // 声明和初始化看起来差别很大  
   m1 = make(map[T1]T2)
   m2 map[T1]T2

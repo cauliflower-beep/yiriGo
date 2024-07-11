@@ -88,7 +88,7 @@ func StructMethod(r interface{}) {
 	//info := v.Method(0).Call(nil)
 	//fmt.Println(info) // 返回的是一个 []Value
 	//fmt.Println(v.MethodByName("GetInfo").Call(nil))
-	// 4. 执行方法传入参数 (注意需要使用“值变量”，并且要注意参数，接受的参数是[]reflect.Value的切片)
+	// 4. 执行方法传入参数 (注意需要使用“值变量”，并且要注意参数，接受的参数是[]_reflect.Value的切片)
 	var params []reflect.Value
 	params = append(params, reflect.ValueOf(2))
 	params = append(params, reflect.ValueOf(4))

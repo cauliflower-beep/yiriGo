@@ -390,7 +390,7 @@ func (p *Pool) getWorker() *Worker {
 
 ```go
 // Worker is the actual executor who runs the tasks,
-// it starts a goroutine that accepts tasks and
+// it starts a _goroutine that accepts tasks and
 // performs function calls.
 type Worker struct {
 	// pool who owns this worker.
@@ -403,7 +403,7 @@ type Worker struct {
 	recycleTime time.Time
 }
  
-// run starts a goroutine to repeat the process
+// run starts a _goroutine to repeat the process
 // that performs the function calls.
 func (w *Worker) run() {
 	go func() {
@@ -542,7 +542,7 @@ type PoolWithFunc struct {
 
 ```go
 // WorkerWithFunc is the actual executor who runs the tasks,
-// it starts a goroutine that accepts tasks and
+// it starts a _goroutine that accepts tasks and
 // performs function calls.
 type WorkerWithFunc struct {
 	// pool who owns this worker.
@@ -555,7 +555,7 @@ type WorkerWithFunc struct {
 	recycleTime time.Time
 }
  
-// run starts a goroutine to repeat the process
+// run starts a _goroutine to repeat the process
 // that performs the function calls.
 func (w *WorkerWithFunc) run() {
 	go func() {

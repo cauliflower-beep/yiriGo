@@ -38,7 +38,7 @@ package main
 
 		p.buf = p.buf[:0]
 		p.arg = nil
-		p.value = reflect.Value{}
+		p.value = _reflect.Value{}
 		p.wrappedErr = nil
 		ppFree.Put(p)
 	}

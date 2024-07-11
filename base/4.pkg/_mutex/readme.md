@@ -17,7 +17,7 @@ func (*Mutex) Unlock // 解锁
 /*
 在Go1.18新提供了TryLock()方法可以非阻塞式的取锁操作：
 tryLock()：调用TryLock方法尝试获取锁;
-当锁被其他 goroutine 占有，或者当前锁正处于饥饿模式，它将立即返回 false;
+当锁被其他 _goroutine 占有，或者当前锁正处于饥饿模式，它将立即返回 false;
 当锁可用时尝试获取锁，获取失败不会自旋/阻塞，也会立即返回false；
  */
 ```
