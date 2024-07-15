@@ -9,7 +9,7 @@ import (
 
 var wg = sync.WaitGroup{}
 
-func handleTsk(ch chan int, idx int) {
+func handleTask(ch chan int, idx int) {
 	for t := range ch {
 		fmt.Println("idx = ", idx, ", go task = ", t, ", goroutine cnt = ", runtime.NumGoroutine())
 		wg.Done()
@@ -27,7 +27,7 @@ func main() {
 
 	for i := 0; i < goCnt; i++ {
 		// 启动 go
-		go handleTsk(ch, i+1)
+		go handleTask(ch, i+1)
 	}
 
 	taskCnt := math.MaxInt64 // 模拟用户需求业务的数量
