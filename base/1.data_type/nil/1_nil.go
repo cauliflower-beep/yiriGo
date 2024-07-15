@@ -7,7 +7,7 @@ func getFunc(flag string) func(x, y int) int {
 		return func(x, y int) int {
 			return x + y
 		}
-	} else if flag == "minus" {
+	} else if flag == "sub" {
 		return func(x, y int) int {
 			return x - y
 		}
@@ -19,7 +19,7 @@ func getFunc(flag string) func(x, y int) int {
 func main() {
 	fmt.Println(getFunc("add")(1, 2))
 
-	fmt.Println(getFunc("minus")(1, 2))
+	fmt.Println(getFunc("sub")(1, 2))
 
 	fmt.Println(getFunc("multiply")(1, 2))
 }
