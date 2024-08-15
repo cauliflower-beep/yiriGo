@@ -2777,7 +2777,7 @@ func WithLogger(log *zap.Logger) Option {
   // ...
 }
 
-// Open creates a connection.
+// Open creates a Connection.
 func Open(
   addr string,
   opts ...Option,
@@ -2842,7 +2842,7 @@ func WithLogger(log *zap.Logger) Option {
   return loggerOption{Log: log}
 }
 
-// Open creates a connection.
+// Open creates a Connection.
 func Open(
   addr string,
   opts ...Option,

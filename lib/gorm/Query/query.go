@@ -2,7 +2,7 @@ package curd
 
 import (
 	"time"
-	conn "yiriGo/lib/gorm/0_conn"
+	conn "yiriGo/lib/gorm/Connection"
 	"yiriGo/lib/gorm/model"
 	"yiriGo/lib/gorm/utils"
 )

@@ -2,7 +2,7 @@ package __update
 
 import (
 	"fmt"
-	conn "yiriGo/lib/gorm/0_conn"
+	conn "yiriGo/lib/gorm/Connection"
 )
 
 /*

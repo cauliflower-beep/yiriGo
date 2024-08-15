@@ -11,7 +11,7 @@ import (
 var DB *gorm.DB
 var err error
 
-var dsn = "root:admin123@tcp(127.0.0.1:3306)/test111?charset=utf8mb4&parseTime=True&loc=Local"
+var dsn = "root:admin123@tcp(127.0.0.1:3306)/beautifulGo?charset=utf8mb4&parseTime=True&loc=Local"
 
 /*
 推荐使用增加配置的方式链接 mysql
