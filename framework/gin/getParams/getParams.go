@@ -33,7 +33,7 @@ func getFormData() {
 	_ = router.Run(":8080")
 }
 
-// 获取动态路由path中的参数 e.g /book/月亮与六便士
+// 获取动态路由path中的参数 也称为uri的形式传递参数 e.g /book/月亮与六便士
 func getDynamicParams() {
 	router := gin.Default()
 

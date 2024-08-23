@@ -96,6 +96,30 @@ go env GO安裝路径
 
 这将显示Go安装路径。
 
+### go generate
+
+`go generate` 命令是一个用于自动化生成Go代码的工具。
+
+在Go源文件中的**特殊注释中指定命令**，然后在运行 `go generate` 命令时**自动执行这些命令**。这些命令可以用来**生成代码、格式化代码、运行测试**等等。
+
+命令语法：
+
+```go
+go generate [-run regexp] [-n] [-v] [-x] [build flags] [file.go... | packages]
+```
+
+`go generate`必须**显示执行**，也就是说在go build、go test之前运行该命令，先创建或更新 GO 源文件，再进行后续的运行测试。
+
+注释格式：
+
+```go
+//go:generate command argument...
+```
+
+在Go源文件中使用 `go generate` 命令需要在源代码中按如上格式添加特殊注释，其中`command` 是要执行的命令， `arguments` 是传递给该命令的参数。
+
+[示例代码](./generate.go)。
+
 ## 更多
 
 有关go命令的更多信息，可以参阅[Go官方文档](https://go.dev/doc/)。
