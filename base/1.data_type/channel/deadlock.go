@@ -33,13 +33,13 @@ func demo3() {
 	for i := 0; i < 3; i++ {
 		ch <- i
 	}
-	//close(ch)
+	// close(ch)
 	for i := range ch {
 		fmt.Println(i)
 	}
 }
 func main() {
-	//demo1()
-	//demo2()
-	demo3()
+	// demo1()
+	demo2()
+	// demo3()
 }
