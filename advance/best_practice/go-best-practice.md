@@ -696,7 +696,7 @@ func main() {
 切片的一个有用属性是它们的零值 `nil`。如果我们看一下切片运行时 `header` 的定义就不难理解:
 ```golang
 type slice struct {
-        array *[...]T // pointer to the underlying array
+        array *[...]T // pointer to the underlying array_slice
         len   int
         cap   int
 }

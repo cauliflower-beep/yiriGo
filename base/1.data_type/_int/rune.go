@@ -1,7 +1,6 @@
-package main
+package _int
 
 import (
-	"fmt"
 	"reflect"
 )
 
@@ -16,36 +15,39 @@ rune alias for int32
 */
 
 // type of param
-func typeOfparam(s interface{})reflect.Type{
-	//fmt.Printf("%t",s)
+func typeOfparam(s interface{}) reflect.Type {
+	// fmt.Printf("%t",s)
 	t := reflect.TypeOf(s)
-	//fmt.Println(t)
+	// fmt.Println(t)
 	return t
 }
 
 // string->[]rune
-func str2rs(s string)[]rune{
+func str2rs(s string) []rune {
 	rs := []rune(s)
 	return rs
 }
 
 // []rune->string
-func rs2str(rs []rune)string{
+func rs2str(rs []rune) string {
 	s := string(rs)
 	return s
 }
-func main(){
-	// type compare
-	r := []rune{2,5}
-	i := []int32{34,67}
-	fmt.Println(typeOfparam(r) == typeOfparam(i))	// true
 
-	// convert
-	fmt.Println(str2rs("中国人"))
-	fmt.Println(rs2str([]rune{20013,22269,20154}))
-
-}
+// func main() {
+// 	// type compare
+// 	r := []rune{2, 5}
+// 	i := []int32{34, 67}
+// 	fmt.Println(typeOfparam(r) == typeOfparam(i)) // true
+//
+// 	// convert
+// 	fmt.Println(str2rs("中国人"))
+// 	fmt.Println(rs2str([]rune{20013, 22269, 20154}))
+//
+// }
 
 /*
 https://juejin.cn/post/6931523990280208392
+
+https://blog.csdn.net/joeyoj/article/details/135723403
 */

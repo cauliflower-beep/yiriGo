@@ -1,21 +1,16 @@
-package main
-
-import (
-	"fmt"
-	"reflect"
-)
+package a_s
 
 /*
 下面的代码输出什么？
 */
 
-func main() {
-	var p [100]int
-	var m interface{} = [...]int{99: 0}
-	fmt.Println(p == m)
-	fmt.Println(p, reflect.TypeOf(p), reflect.ValueOf(p))
-	fmt.Println(m, reflect.TypeOf(m), reflect.ValueOf(m))
-}
+// func main() {
+// 	var p [100]int
+// 	var m interface{} = [...]int{99: 0}
+// 	fmt.Println(p == m)
+// 	fmt.Println(p, reflect.TypeOf(p), reflect.ValueOf(p))
+// 	fmt.Println(m, reflect.TypeOf(m), reflect.ValueOf(m))
+// }
 
 /*
 答案：true 二者均为长度100，且元素值全是0的数组

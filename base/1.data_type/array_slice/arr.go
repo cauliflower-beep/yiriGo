@@ -1,9 +1,9 @@
-package main
+package a_s
 
 import "fmt"
 
 /*
-	数组定义的几种方式:
+1.数组定义的几种方式:
 */
 func define() {
 	var names [3]string
@@ -30,6 +30,20 @@ func define() {
 	fmt.Println("5.指针数组初始化|", a)
 }
 
-func main() {
-	define()
+/*
+2.数组是值类型，每次传递都将产生一分副本
+*/
+func fillNumCopy(l []int) {
+	l = append(l, 1)
+}
+func fillNumAddr(l *[]int) {
+	*l = append(*l, 2)
+}
+
+/*
+3.数组指针地址与数据第一个值地址相同
+*/
+func arrAddr() {
+	arr := [3]int{1, 2, 3}
+	fmt.Printf("arrAddr:%p|arr[0]Addr:%p|arr[1]Addr:%p\n", &arr, &arr[0], &arr[1])
 }
