@@ -1,9 +1,18 @@
-package _int
+package int
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 )
+
+func TestStr2Runes(t *testing.T) {
+	s := "国"
+	fmt.Println([]rune(s))
+
+	r := '中'
+	fmt.Println(reflect.TypeOf(r))
+}
 
 func TestGetCharLenByRuneArr(t *testing.T) {
 	s := "我的玫瑰，种在繁星中的一颗"

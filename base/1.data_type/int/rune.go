@@ -1,4 +1,4 @@
-package _int
+package int
 
 import (
 	"reflect"
