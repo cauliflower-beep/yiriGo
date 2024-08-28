@@ -31,13 +31,20 @@ func define() {
 }
 
 /*
-2.数组是值类型，每次传递都将产生一分副本
+2.数组是值类型，作为函数参数传递时，会copy出一个副本
+对副本的修改不会影响原有数组
 */
-func fillNumCopy(l []int) {
-	l = append(l, 1)
+func setDataCopy(arr [5]int) {
+	arr[1] = 1
 }
-func fillNumAddr(l *[]int) {
-	*l = append(*l, 2)
+func setDataAddr(arr *[5]int) {
+	/*
+		arr 是一个指向[5]int类型数组的指针
+		直接使用arr[1]访问数组元素的时候，Go编译器会自动解引用指针来访问它指向的数组
+		这是一种语法糖，可以是代码更简洁易读
+	*/
+	arr[1] = 1
+	//(*arr)[1] = 2 // 显示解引用
 }
 
 /*

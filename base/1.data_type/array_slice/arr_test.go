@@ -12,10 +12,10 @@ func TestDefine(t *testing.T) {
 
 func TestTransfer(t *testing.T) {
 	// 数组是值传递
-	var l1, l2 []int
-	fillNumCopy(l1)
-	fillNumAddr(&l2)
-	fmt.Printf("l1:%v\nl2:%v\n", l1, l2)
+	var arr1, arr2 [5]int
+	setDataCopy(arr1)
+	setDataAddr(&arr2)
+	fmt.Printf("l1:%v\nl2:%v\n", arr1, arr2)
 }
 
 func TestArrAddr(t *testing.T) {

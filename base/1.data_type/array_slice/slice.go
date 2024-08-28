@@ -2,41 +2,72 @@ package a_s
 
 import (
 	"fmt"
+	"reflect"
+	"unsafe"
 )
 
 /*
 关键词：golang slice两个冒号的理解
 */
 
-// func main() {
-// 	// 所有空切片指向的地址都是一致的
-// 	s1 := make([]int, 0)
-// 	s2 := make([]int, 0)
-// 	// 获取切片底层对应的数据结构
-// 	fmt.Println(*(*reflect.SliceHeader)(unsafe.Pointer(&s1)), "\n", *(*reflect.SliceHeader)(unsafe.Pointer(&s2)))
-//
-// 	// nil切片的地址是空的
-// 	var s3 []int
-// 	fmt.Println(*(*reflect.SliceHeader)(unsafe.Pointer(&s3)))
-// }
+func nilSlAddr() {
+	// 所有空切片指向的地址都是一致的
+	s1 := make([]int, 0)
+	s2 := make([]int, 0)
+	// 获取切片底层对应的数据结构
+	fmt.Println(*(*reflect.SliceHeader)(unsafe.Pointer(&s1)),
+		"\n", *(*reflect.SliceHeader)(unsafe.Pointer(&s2)))
+
+	// nil切片的地址是空的
+	var s3 []int
+	fmt.Println(*(*reflect.SliceHeader)(unsafe.Pointer(&s3)))
+}
 
 /*
-切片是对数组的引用
+切片作为函数参数传递时，对参数的修改不一定会影响原有切片
+*/
+// 内部操作外部不可见的情况
+func noAffect(sl []int) {
+	fmt.Println("内部增加元素前，内部切片:", sl)
+	sl = append(sl, 1)
+	fmt.Println("内部增加元素后，内部切片:", sl)
+}
+
+// 内部操作外部可见的情况
+func affect(sl []int) {
+	sl[0] = 99
+}
+
+/*
+从上面两个案例可知，
+切片并不是引用传递，本质是通过值传递来传递指针
+golang中本质上是没有引用传递的
+事实上，内部和外部的slice地址是不同的，两个slice地址不同，
+但它们初始时指向了同一个底层数组。如果因为扩容导致内部切片底层数组再分配，那么内部的修改外部是不可见的
+*/
+func slAddrSwitch(sl []int) {
+	fmt.Printf("内部切片底层数组初始地址:%p|内部切片初始地址:%p\n", sl, &sl)
+	sl = append(sl, 1)
+	fmt.Printf("内部切片底层数组扩容后地址:%p|内部切片扩容后地址:%p\n", sl, &sl)
+}
+
+/*
+切片是对数组的引用，修改切片的内容也会影响底层数组
 */
 
-func ModifyArr() {
+func setData() {
 	arr := [5]int{1, 2, 3, 4, 5}
 
-	s1 := arr[1:]
+	s1 := arr[0:]
 	fmt.Printf("地址关系|arr:%p|s1:%p|s1[0]:%p\n", &arr, &s1, &s1[0])
 	s2 := s1[:2]
-	fmt.Printf("[before modify]|arr:%+v|s1:%+v|s2:%+v\n", arr, s1, s2)
+	fmt.Printf("[before set]|arr:%+v|s1:%+v|s2:%+v\n", arr, s1, s2)
 
 	s3 := arr[:]
 	fmt.Println("s3:", s3)
 
 	s2[0] = 6
-	fmt.Printf("[after modify]|arr:%+v|s1:%+v|s2:%+v\n", arr, s1, s2)
+	fmt.Printf("[after set]|arr:%+v|s1:%+v|s2:%+v\n", arr, s1, s2)
 
 	fmt.Println("s3:", s3)
 }
