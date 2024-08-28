@@ -1,4 +1,4 @@
-package main
+package _circle
 
 import "fmt"
 

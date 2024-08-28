@@ -926,7 +926,7 @@ if err != nil {
 }
 ```
 
-<!-- TODO: Explain how to use _test packages. -->
+<!-- TODO: Explain how to use _testing packages. -->
 
 ### 使用 go.uber.org/atomic
 
