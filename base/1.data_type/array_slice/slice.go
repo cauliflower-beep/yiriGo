@@ -10,7 +10,7 @@ import (
 关键词：golang slice两个冒号的理解
 */
 
-func nilSlAddr() {
+func empSl() {
 	// 所有空切片指向的地址都是一致的
 	s1 := make([]int, 0)
 	s2 := make([]int, 0)
@@ -18,9 +18,18 @@ func nilSlAddr() {
 	fmt.Println(*(*reflect.SliceHeader)(unsafe.Pointer(&s1)),
 		"\n", *(*reflect.SliceHeader)(unsafe.Pointer(&s2)))
 
-	// nil切片的地址是空的
+	// 通过上述make创建的切片，底层指向一个长度为0的数组
+	fmt.Printf("[通过make创建的切片]|底层数组地址：%p|切片地址：%p\n", s1, &s1)
+
+	// nil切片没有指向任何底层数组，直到显示的向切片添加了元素，或者明确为它分配了一个底层数组
 	var s3 []int
 	fmt.Println(*(*reflect.SliceHeader)(unsafe.Pointer(&s3)))
+	fmt.Printf("[通过var创建的切片]|底层数组地址：%p|切片地址：%p\n", s3, &s3)
+	s3 = make([]int, 3, 5)
+	fmt.Printf("[通过make给nil切片分配内存]|底层数组地址：%p|切片地址：%p\n", s3, &s3)
+
+	// 如果知道切片的大致大小或者需要立即使用切片，使用make来创建会更高效
+	// 如果只是声明一个切片并在稍后某个时刻使用它，使用var声明也是可以的，需要注意第一次使用append是可能导致的性能影响
 }
 
 /*
@@ -49,6 +58,16 @@ func slAddrSwitch(sl []int) {
 	fmt.Printf("内部切片底层数组初始地址:%p|内部切片初始地址:%p\n", sl, &sl)
 	sl = append(sl, 1)
 	fmt.Printf("内部切片底层数组扩容后地址:%p|内部切片扩容后地址:%p\n", sl, &sl)
+}
+
+/*
+如果想要在函数内部针对切片的修改外部可见，
+就需要设置指针类型的参数
+*/
+func mustAffect(sl *[]int) {
+	fmt.Println("[mustAffect]|内部增加元素前，内部切片:", sl)
+	*sl = append(*sl, 1)
+	fmt.Println("[mustAffect]|内部增加元素后，内部切片:", sl)
 }
 
 /*

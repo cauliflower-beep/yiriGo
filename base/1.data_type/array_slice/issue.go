@@ -21,3 +21,7 @@ package a_s
 	2. 满足上一条的前提下，interface类型变量的动态类型、值均与非interface类型变量相同时，两个变量判等结果为true，
 	   结合array判等规则，答案为true
 */
+
+/*
+通过var s []int 与 s := make([]int,0)定义的切片有什么区别？
+*/

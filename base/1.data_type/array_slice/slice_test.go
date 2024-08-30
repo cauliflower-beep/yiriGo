@@ -5,6 +5,10 @@ import (
 	"testing"
 )
 
+func TestEmpSl(t *testing.T) {
+	empSl()
+}
+
 func TestNoAffect(t *testing.T) {
 	var sl []int
 	sl = append(sl, 1)
@@ -32,10 +36,26 @@ func TestAddrSwitch(t *testing.T) {
 	// 可以发现，内部扩容前后，内部切片指向的底层数组地址发生了变化，而外部没变，所以外部不可见
 }
 
+func TestMustAffect(t *testing.T) {
+	sl := make([]int, 3)
+	fmt.Println("内部增加元素前，外部切片:", sl)
+	mustAffect(&sl)
+	fmt.Println("内部增加元素后，外部切片:", sl)
+	// 可以看到，对于指针类型的切片入参，内部对切片的修改，外部可见
+}
+
 func TestSetData(t *testing.T) {
 	setData()
 }
 
 func TestExpend(t *testing.T) {
 	expand()
+}
+
+func TestAssignSl(t *testing.T) {
+	assignSl()
+}
+
+func TestCopySl(t *testing.T) {
+	copySl()
 }

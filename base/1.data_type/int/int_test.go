@@ -23,3 +23,7 @@ func TestSizeofInt(t *testing.T) {
 	// int的长度
 	fmt.Println(strconv.IntSize)
 }
+
+func TestNewInt(t *testing.T) {
+	newInt()
+}
