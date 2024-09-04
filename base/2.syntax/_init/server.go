@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	_ "yiriGo/base/2.grammar/_init/banWord"
-	_ "yiriGo/base/2.grammar/_init/config"
+	_ "yiriGo/base/2.syntax/_init/banWord"
+	_ "yiriGo/base/2.syntax/_init/config"
 )
 
 func main() {

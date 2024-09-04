@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	_ "yiriGo/base/2.grammar/_init/exp"
+	_ "yiriGo/base/2.syntax/_init/exp"
 )
 
 func init() {
