@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"unicode/utf8"
 )
 
 // string 转 []map
@@ -44,4 +45,6 @@ func main() {
 	// 切片转字符串
 	descs := []string{"路飞", "索隆", "山治"}
 	fmt.Println(slice2string(descs))
+
+	fmt.Println(utf8.RuneCountInString("你好"))
 }

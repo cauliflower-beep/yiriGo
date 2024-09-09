@@ -4,7 +4,8 @@ import (
 	"fmt"
 )
 
-/*1. 概念
+/*
+1. 概念
 现实生活中我们已经见到过很多接口的例子，比如 USB 接口，各个厂商按照一定的规范生产，最后的产品都是互相通用的。
 
 golang中的接口是类似的一种抽象概念，它定义了对象的行为规范，只定义规范而不实现。
@@ -23,7 +24,7 @@ type animal interface {
 }
 
 type bird struct {
-	animal  // 结构体拥有了接口中的方法，需要具体实现才能调用，否则会报空指针错误
+	//animal  // 结构体拥有了接口中的方法，需要具体实现才能调用，否则会报空指针错误
 	voice   string
 	feather string
 }
@@ -54,16 +55,16 @@ go中的接口可以不定义任何方法，这种接口称为空接口,即包�
 空接口表示任何约束，因此任何类型变量都可以实现空接口
 */
 
-//空接口在实际项目中用的是非常多的，用空接口可以表示任意数据类型
+// 空接口在实际项目中用的是非常多的，用空接口可以表示任意数据类型
 var x interface{} = 123
 var y interface{} = true
 
-//空接口可以作为函数的参数，表示此函数可以接受任意类型的数据
+// 空接口可以作为函数的参数，表示此函数可以接受任意类型的数据
 func emptyInterfaceInfo(i interface{}) {
 	fmt.Printf("value:%v ,type:%T \n", i, i)
 }
 
-//利用空接口，可以让map或者slice的值包含任意类型
+// 利用空接口，可以让map或者slice的值包含任意类型
 var m map[string]interface{}
 
 //var s []interface{}

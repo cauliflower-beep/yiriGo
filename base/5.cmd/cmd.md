@@ -42,6 +42,20 @@ go get github.com/gorilla/mux
 
 管理Go模块。Go modules 是Go 1.11中引入的依赖项管理系统。可以使用 `go mod` 命令来查看、添加、编辑和删除模块。
 
+注意，在`gopath`外的目录执行`go mod init`必须指定模块名，不然会报错：
+
+```go
+go: cannot determine module path for source directory xxx (outside GOPATH, module path must be specified)
+
+Example usage:
+        'go mod init example.com/m' to initialize a v0 or v1 module
+        'go mod init example.com/m/v2' to initialize a v2 module
+
+Run 'go help mod init' for more information.
+```
+
+在`gopath/src`下的项目根目录中执行这个命令不会有问题。
+
 ## 测试程序
 
 ### go test
