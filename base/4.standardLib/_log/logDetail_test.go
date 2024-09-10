@@ -9,3 +9,11 @@ func TestLogDefault(t *testing.T) {
 func TestLogWithFlags(t *testing.T) {
 	logWithFlags()
 }
+
+func TestLogWithPrefix(t *testing.T) {
+	logWithPrefix()
+}
+
+func TestLog2file(t *testing.T) {
+	log2File()
+}

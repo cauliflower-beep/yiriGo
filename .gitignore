@@ -10,3 +10,5 @@ practice/
 *.exe
 
 *.out
+
+*.log
