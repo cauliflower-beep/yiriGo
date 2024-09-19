@@ -1,4 +1,4 @@
-package main
+package _struct
 
 import (
 	"fmt"
@@ -54,7 +54,7 @@ func (p *Player) setName(name string) {
 }
 
 /***************************main***************************/
-func main() {
+func s() {
 	// 2.assign
 	var p1 = Player{
 		nickname: "小花椰种植员",

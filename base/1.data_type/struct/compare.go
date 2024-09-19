@@ -1,4 +1,4 @@
-package main
+package _struct
 
 import (
 	"fmt"
@@ -30,7 +30,7 @@ var sm2 = struct {
 	grade map[string]int
 }{name: "tom", grade: map[string]int{"math": 92, "english": 93}}
 
-func main() {
+func compare() {
 	//fmt.Println(sn1 == sn2) // 结构体字段顺序不同 不能比较
 	if reflect.DeepEqual(sn1, sn2) {
 		fmt.Println("sn1 == sn2")

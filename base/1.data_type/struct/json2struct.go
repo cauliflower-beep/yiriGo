@@ -1,4 +1,4 @@
-package main
+package _struct
 
 import (
 	"encoding/json"
@@ -70,7 +70,7 @@ type RiskWarnInfo struct {
 	Title    RiskWarnTitle
 }
 
-func main() {
+func j2s() {
 	// 案例1
 	var tList []T
 	//cache_trim := strings.Trim(cacheData, "[")
