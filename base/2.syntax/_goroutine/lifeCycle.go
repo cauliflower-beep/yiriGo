@@ -37,7 +37,7 @@ func main() {
 	//go father()
 
 	// 3.子goroutine结束，父函数仍会继续执行
-	mother()
+	//mother()
 
 	// 4.子goroutine结束，父goroutine仍会继续执行
 	//go mother()
