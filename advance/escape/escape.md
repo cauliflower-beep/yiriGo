@@ -1,6 +1,6 @@
 ## 如何确定是否发生逃逸？
 
-小节代码：[check.go](.\check.go)
+小节代码：[check.go](check.go)
 
 ### -gcflags
 
